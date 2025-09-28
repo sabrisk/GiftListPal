@@ -1,8 +1,10 @@
+"use client";
+
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
 import GridContainer from "@/components/GridContainer";
 import React, { useEffect } from "react";
-import ListGrid from "../../components/ListGrid";
+import ListGrid from "../../src/components/ListGrid";
 import {
 	getGiftEvents,
 	selectAllGiftEvents,

@@ -1,9 +1,13 @@
+"use client";
+
 import { useState } from "react";
 import { useAppDispatch } from "@/store/hooks";
 import { postGiftEvent } from "@/features/GiftEvents/GiftEventsSlice";
+import { useRouter } from "next/navigation";
 
 export default function AddEvent() {
 	const dispatch = useAppDispatch();
+	const router = useRouter();
 
 	const [event, setEvent] = useState({
 		name: "",
@@ -15,7 +19,6 @@ export default function AddEvent() {
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
 		const { name, value } = e.target;
-		console.log(e.target);
 		setEvent((prev) => ({ ...prev, [name]: value }));
 	};
 
@@ -23,6 +26,7 @@ export default function AddEvent() {
 		e.preventDefault();
 		// @ts-ignore
 		dispatch(postGiftEvent(event));
+		router.push("/events");
 		// localStorage.setItem("event", JSON.stringify(event));
 
 		// try {

@@ -133,8 +133,8 @@ const giftEventsSlice = createSlice({
 			.addCase(postGiftEvent.fulfilled, (state, action) => {
 				console.log("made it to postGiftEvent success");
 				state.postGiftEventStatus = "succeeded";
-				console.log("action payload", action.payload);
-				state.list.push(action.payload);
+				state.list.push(action.payload.event);
+				console.log(action.payload.message);
 			})
 			.addCase(postGiftEvent.rejected, (state, action) => {
 				state.postGiftEventStatus = "failed";

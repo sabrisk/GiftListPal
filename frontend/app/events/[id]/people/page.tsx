@@ -1,9 +1,13 @@
+"use client";
+
 import React, { useEffect } from "react";
 
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import ListGrid from "../../../../components/ListGrid";
-import BackButton from "../../../../components/BackButton";
-import GridContainer from "../../../../components/GridContainer";
+import { useParams } from "next/navigation";
+
+import ListGrid from "../../../../src/components/ListGrid";
+import BackButton from "../../../../src/components/BackButton";
+import GridContainer from "../../../../src/components/GridContainer";
 
 import {
 	getPeople,
@@ -22,8 +26,8 @@ import { useRouter } from "next/router";
 
 function People() {
 	const dispatch = useAppDispatch();
-	const router = useRouter();
-	const { id } = router.query;
+	const params = useParams();
+	const id = params?.id;
 
 	const giftEventsStatus = useAppSelector(selectGiftEventsStatus);
 	const giftEvent = useAppSelector((state) => selectGiftEventById(state, id));
