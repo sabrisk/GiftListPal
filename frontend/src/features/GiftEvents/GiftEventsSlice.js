@@ -31,6 +31,31 @@ export const getGiftEvents = createAsyncThunk(
 	}
 );
 
+export const postGiftEvent = createAsyncThunk(
+	"giftEvents/postGiftEvent",
+	async (newEvent) => {
+		try {
+			const response = await fetch("/api/events", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(newEvent),
+			});
+
+			if (!response.ok) {
+				throw new Error("Failed to add event");
+			}
+
+			const data = await response.json();
+			console.log("the data", data);
+			return data;
+		} catch (err) {
+			throw new Error(err.message);
+		}
+	}
+);
+
 // export const getSpacecraftById = createAsyncThunk(
 // 	"spacecrafts/getSpacecraftById",
 // 	async ({ id }) => {
@@ -101,6 +126,19 @@ const giftEventsSlice = createSlice({
 			.addCase(getGiftEvents.rejected, (state, action) => {
 				state.getGiftEventsStatus = "failed";
 				state.getGiftEventsError = action.error.message;
+			})
+			.addCase(postGiftEvent.pending, (state, action) => {
+				state.postGiftEventStatus = "loading";
+			})
+			.addCase(postGiftEvent.fulfilled, (state, action) => {
+				console.log("made it to postGiftEvent success");
+				state.postGiftEventStatus = "succeeded";
+				console.log("action payload", action.payload);
+				state.list.push(action.payload);
+			})
+			.addCase(postGiftEvent.rejected, (state, action) => {
+				state.postGiftEventStatus = "failed";
+				state.postGiftEventError = action.error.message;
 			});
 
 		// 		.addCase(getSpacecraftById.pending, (state, action) => {

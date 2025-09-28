@@ -45,10 +45,18 @@ let items = [
 	// },
 ];
 
+let inc = 3;
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
 	switch (req.method) {
 		case "GET":
 			res.status(200).json(items);
+			break;
+		case "POST":
+			items.push({ ...req.body, id: inc });
+			console.log("from api", { ...req.body, id: inc++ });
+			items.push;
+			res.status(200).json({ ...req.body, id: inc++ });
+			// I will need to post this to the database and also somehow return the primary key for the event's id for the event object I'm returning here
 			break;
 		default:
 			res.setHeader("Allow", ["GET", "POST", "PATCH", "DELETE"]);

@@ -1,6 +1,10 @@
 import { useState } from "react";
+import { useAppDispatch } from "@/store/hooks";
+import { postGiftEvent } from "@/features/GiftEvents/GiftEventsSlice";
 
-export default function SignUp() {
+export default function AddEvent() {
+	const dispatch = useAppDispatch();
+
 	const [event, setEvent] = useState({
 		name: "",
 		date: "",
@@ -17,30 +21,31 @@ export default function SignUp() {
 
 	const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
+		// @ts-ignore
+		dispatch(postGiftEvent(event));
+		// localStorage.setItem("event", JSON.stringify(event));
 
-		localStorage.setItem("event", JSON.stringify(event));
+		// try {
+		// 	const response = await fetch("http://localhost:3001/AddEvent", {
+		// 		method: "POST",
+		// 		headers: {
+		// 			Accept: "application/json",
+		// 			"Content-Type": "application/json",
+		// 		},
+		// 		body: JSON.stringify(event),
+		// 	});
 
-		try {
-			const response = await fetch("http://localhost:3001/AddEvent", {
-				method: "POST",
-				headers: {
-					Accept: "application/json",
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(event),
-			});
+		// 	if (!response.ok) {
+		// 		const error = await response.text();
+		// 		alert(`Add Event failed: ${error}`);
+		// 		return;
+		// 	}
 
-			if (!response.ok) {
-				const error = await response.text();
-				alert(`Add Event failed: ${error}`);
-				return;
-			}
-
-			const jsonResponse = await response.json();
-			// do other things like redirect users to another page
-		} catch (error) {
-			alert("An error occurred");
-		}
+		// 	const jsonResponse = await response.json();
+		// 	// do other things like redirect users to another page
+		// } catch (error) {
+		// 	alert("An error occurred");
+		// }
 	};
 
 	return (
