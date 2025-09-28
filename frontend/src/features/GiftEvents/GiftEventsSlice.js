@@ -161,6 +161,12 @@ export const selectAllGiftEvents = (state) => state.giftEvents.list;
 export const selectGiftEventsStatus = (state) =>
 	state.giftEvents.getGiftEventsStatus;
 
+export const selectGiftEventById = (state, eventId) => {
+	return state.giftEvents.list.find(
+		(giftEvent) => giftEvent.id === parseInt(eventId)
+	);
+};
+
 // export const selectSpacecraftsStatus = (state) =>
 // 	state.spacecrafts.getSpacecraftsStatus;
 // export const selectSpacecraftsError = (state) =>

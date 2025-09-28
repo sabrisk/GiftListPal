@@ -15,6 +15,7 @@
 // }
 
 export interface GiftEvent {
+	id: number;
 	name: string;
 	date?: string;
 	description?: string;

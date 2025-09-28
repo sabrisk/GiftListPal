@@ -17,9 +17,9 @@ const initialState = {
 	// getSpacecraftByIdError: null,
 };
 
-export const getPeople = createAsyncThunk("people/getPeople", async () => {
+export const getPeople = createAsyncThunk("people/getPeople", async (id) => {
 	try {
-		const response = await fetch("/api/people");
+		const response = await fetch(`/api/events/${id}/people`);
 		const data = await response.json();
 		console.log("the data", data);
 		return data;
@@ -86,6 +86,12 @@ export const getPeople = createAsyncThunk("people/getPeople", async () => {
 const peopleSlice = createSlice({
 	name: "people",
 	initialState,
+	reducers: {
+		resetPeople: (state) => {
+			state.list = [];
+			state.getPeopleStatus = "idle";
+		},
+	},
 	extraReducers(builder) {
 		builder
 			.addCase(getPeople.pending, (state, action) => {
@@ -156,6 +162,7 @@ const peopleSlice = createSlice({
 export const selectAllPeople = (state) => state.people.list;
 
 export const selectPeopleStatus = (state) => state.people.getPeopleStatus;
+export const { resetPeople } = peopleSlice.actions;
 
 // export const selectSpacecraftsStatus = (state) =>
 // 	state.spacecrafts.getSpacecraftsStatus;
