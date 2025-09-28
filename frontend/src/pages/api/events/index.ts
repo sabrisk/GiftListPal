@@ -53,8 +53,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 			break;
 		case "POST":
 			items.push({ ...req.body, id: inc });
-			console.log("from api", { ...req.body, id: inc++ });
-			items.push;
+			console.log("from api", { ...req.body, id: inc });
 			res.status(200).json({ ...req.body, id: inc++ });
 			// I will need to post this to the database and also somehow return the primary key for the event's id for the event object I'm returning here
 			break;
