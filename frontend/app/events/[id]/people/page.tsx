@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { useParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 
 import ListGrid from "../../../../src/components/ListGrid";
 import BackButton from "../../../../src/components/BackButton";
@@ -21,8 +21,6 @@ import {
 	selectGiftEventsStatus,
 	selectGiftEventById,
 } from "@/features/GiftEvents/GiftEventsSlice";
-
-import { useRouter } from "next/router";
 
 function People() {
 	const dispatch = useAppDispatch();
