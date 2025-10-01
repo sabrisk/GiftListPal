@@ -23,7 +23,6 @@ export const getGiftEvents = createAsyncThunk(
 		try {
 			const response = await fetch("/api/events");
 			const data = await response.json();
-			console.log("the data", data);
 			return data;
 		} catch (err) {
 			throw new Error(err.message);
@@ -48,7 +47,6 @@ export const postGiftEvent = createAsyncThunk(
 			}
 
 			const data = await response.json();
-			console.log("the data", data);
 			return data;
 		} catch (err) {
 			throw new Error(err.message);

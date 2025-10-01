@@ -21,7 +21,6 @@ export const getPeople = createAsyncThunk("people/getPeople", async (id) => {
 	try {
 		const response = await fetch(`/api/events/${id}/people`);
 		const data = await response.json();
-		console.log("the data", data);
 		return data;
 	} catch (err) {
 		throw new Error(err.message);
