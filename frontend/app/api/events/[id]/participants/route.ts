@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server.js";
 
 // Fake in-memory database
-import people from "../../../../../fakeDb.js";
+import participants from "../../../../../fakeDb.js";
 
 export async function GET(
 	req: Request,
@@ -11,8 +11,8 @@ export async function GET(
 	const { id } = await params; // await it!
 	const eventId = parseInt(id, 10);
 
-	const eventParticipants = people.filter(
-		(person) => person.event_id === eventId
+	const eventParticipants = participants.filter(
+		(participant) => participant.event_id === eventId
 	);
 
 	console.log(eventParticipants);

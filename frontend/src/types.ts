@@ -2,15 +2,15 @@
 // 	name: string;
 // 	date?: string;
 // 	description?: string;
-// 	variant: "person" | "gift-event";
+// 	variant: "participant" | "gift-event";
 // };
 
 // export type ListGridProps = {
-// 	items: Array<Person | GiftEvent>;
-// 	variant: "person" | "event";
+// 	items: Array<Participant | GiftEvent>;
+// 	variant: "participant" | "event";
 // };
 
-// export interface Person {
+// export interface Participant {
 // 	name: string;
 // }
 
@@ -21,9 +21,9 @@ export interface GiftEvent {
 	description?: string;
 }
 
-// export type Item = Person | GiftEvent;
+// export type Item = Participant | GiftEvent;
 
-// export interface Person {
+// export interface Participant {
 //   name: string;
 //   // Add other properties if needed, e.g.:
 //   // avatarUrl?: string;
@@ -40,10 +40,10 @@ export interface GiftEvent {
 // 	name: string;
 // 	description?: string;
 // 	date?: string;
-// 	variant: "person" | "event"; // explicit type
+// 	variant: "participant" | "event"; // explicit type
 // };
 
 // export type ListGridProps = {
-// 	items: Array<Person | Event>;
-// 	variant: "person" | "event";
+// 	items: Array<Participant | Event>;
+// 	variant: "participant" | "event";
 // };

@@ -10,11 +10,11 @@ import BackButton from "../../../../src/components/BackButton";
 import GridContainer from "../../../../src/components/GridContainer";
 
 import {
-	getPeople,
-	selectAllPeople,
-	selectPeopleStatus,
-	resetPeople,
-} from "@/features/People/PeopleSlice";
+	getParticipants,
+	selectAllParticipants,
+	selectParticipantsStatus,
+	resetParticipants,
+} from "@/features/Participants/participantsSlice";
 
 import {
 	getGiftEvents,
@@ -22,7 +22,7 @@ import {
 	selectGiftEventById,
 } from "@/features/GiftEvents/GiftEventsSlice";
 
-function People() {
+function Participants() {
 	const dispatch = useAppDispatch();
 	const params = useParams();
 	const id = params?.id;
@@ -30,8 +30,8 @@ function People() {
 	const giftEventsStatus = useAppSelector(selectGiftEventsStatus);
 	const giftEvent = useAppSelector((state) => selectGiftEventById(state, id));
 
-	const people = useAppSelector(selectAllPeople);
-	const peopleStatus = useAppSelector(selectPeopleStatus);
+	const participants = useAppSelector(selectAllParticipants);
+	const participantsStatus = useAppSelector(selectParticipantsStatus);
 
 	useEffect(() => {
 		if (giftEventsStatus === "idle") {
@@ -40,15 +40,15 @@ function People() {
 	}, [giftEventsStatus, dispatch]);
 
 	useEffect(() => {
-		if (peopleStatus === "idle" && typeof id === "string") {
+		if (participantsStatus === "idle" && typeof id === "string") {
 			// @ts-ignore
-			dispatch(getPeople(id)); // safe now
+			dispatch(getParticipants(id)); // safe now
 		}
-	}, [peopleStatus, dispatch, id]);
+	}, [participantsStatus, dispatch, id]);
 
 	useEffect(() => {
 		return () => {
-			dispatch(resetPeople());
+			dispatch(resetParticipants());
 		};
 	}, [dispatch]);
 
@@ -60,12 +60,12 @@ function People() {
 
 			{giftEventsStatus === "succeeded" && giftEvent && (
 				<GridContainer
-					// title={"People"}
+					// title={"Participants"}
 					title={giftEvent.name}
 					description={giftEvent.description}
-					variant={"person"}
+					variant={"participant"}
 				>
-					<ListGrid items={people} />
+					<ListGrid items={participants} />
 				</GridContainer>
 			)}
 			<button
@@ -78,4 +78,4 @@ function People() {
 	);
 }
 
-export default People;
+export default Participants;

@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-type Variant = "person" | "gift-event";
+type Variant = "participant" | "gift-event";
 type GridContainerProps = {
 	title: String;
 	// eventName: String;
@@ -23,7 +23,7 @@ function GridContainer({
 				<h3 className="text-lg">{description}</h3>
 			</div>
 			<button className="hidden md:block bg-[#F5EFE7] text-[#313131] font-bold border-1 rounded border-[#F5EFE7] px-2 ">
-				{variant === "person" ? (
+				{variant === "participant" ? (
 					"Add Person"
 				) : (
 					<Link href={`/events/new`}>Add Event</Link>

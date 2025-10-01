@@ -1,14 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import giftEventsReducer from "../features/GiftEvents/GiftEventsSlice";
-import peopleReducer from "../features/People/PeopleSlice";
+import participantsReducer from "../features/Participants/participantsSlice";
 // import spacecraftsReducer from "../features/spacecrafts/spacecraftsSlice";
 // import planetsReducer from "../features/planets/planetsSlice";
 
 export const store = configureStore({
 	reducer: {
 		giftEvents: giftEventsReducer,
-		people: peopleReducer,
+		participants: participantsReducer,
 		// spacecrafts: spacecraftsReducer,
 		// planets: planetsReducer,
 	},

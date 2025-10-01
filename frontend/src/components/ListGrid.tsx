@@ -3,13 +3,13 @@ import ListItem from "../components/ListItem";
 import { v4 as uuid } from "uuid";
 import { GiftEvent } from "@/types";
 
-type Person = {
+type Participant = {
 	id: number;
 	name: string;
 };
 
 type ListGridProps = {
-	items: Array<Person | GiftEvent>;
+	items: Array<Participant | GiftEvent>;
 };
 
 function ListGrid({ items }: ListGridProps) {

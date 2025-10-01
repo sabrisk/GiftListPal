@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
 	list: [],
-	getPeopleStatus: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
+	getParticipantsStatus: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
 	// getSpacecraftsStatus: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
 	// buildSpacecraftStatus: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
 	// destroySpacecraftByIdStatus: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -17,15 +17,18 @@ const initialState = {
 	// getSpacecraftByIdError: null,
 };
 
-export const getPeople = createAsyncThunk("people/getPeople", async (id) => {
-	try {
-		const response = await fetch(`/api/events/${id}/people`);
-		const data = await response.json();
-		return data;
-	} catch (err) {
-		throw new Error(err.message);
+export const getParticipants = createAsyncThunk(
+	"participants/getParticipants",
+	async (id) => {
+		try {
+			const response = await fetch(`/api/events/${id}/participants`);
+			const data = await response.json();
+			return data;
+		} catch (err) {
+			throw new Error(err.message);
+		}
 	}
-});
+);
 
 // export const getSpacecraftById = createAsyncThunk(
 // 	"spacecrafts/getSpacecraftById",
@@ -82,27 +85,27 @@ export const getPeople = createAsyncThunk("people/getPeople", async (id) => {
 // 	}
 // );
 
-const peopleSlice = createSlice({
-	name: "people",
+const participantsSlice = createSlice({
+	name: "participants",
 	initialState,
 	reducers: {
-		resetPeople: (state) => {
+		resetParticipants: (state) => {
 			state.list = [];
-			state.getPeopleStatus = "idle";
+			state.getParticipantsStatus = "idle";
 		},
 	},
 	extraReducers(builder) {
 		builder
-			.addCase(getPeople.pending, (state, action) => {
-				state.getPeopleStatus = "loading";
+			.addCase(getParticipants.pending, (state, action) => {
+				state.getParticipantsStatus = "loading";
 			})
-			.addCase(getPeople.fulfilled, (state, action) => {
-				state.getPeopleStatus = "succeeded";
+			.addCase(getParticipants.fulfilled, (state, action) => {
+				state.getParticipantsStatus = "succeeded";
 				state.list = action.payload;
 			})
-			.addCase(getPeople.rejected, (state, action) => {
-				state.getPeopleStatus = "failed";
-				state.getPeopleError = action.error.message;
+			.addCase(getParticipants.rejected, (state, action) => {
+				state.getParticipantsStatus = "failed";
+				state.getParticipantsError = action.error.message;
 			});
 
 		// 		.addCase(getSpacecraftById.pending, (state, action) => {
@@ -158,10 +161,11 @@ const peopleSlice = createSlice({
 	},
 });
 
-export const selectAllPeople = (state) => state.people.list;
+export const selectAllParticipants = (state) => state.participants.list;
 
-export const selectPeopleStatus = (state) => state.people.getPeopleStatus;
-export const { resetPeople } = peopleSlice.actions;
+export const selectParticipantsStatus = (state) =>
+	state.participants.getParticipantsStatus;
+export const { resetParticipants } = participantsSlice.actions;
 
 // export const selectSpacecraftsStatus = (state) =>
 // 	state.spacecrafts.getSpacecraftsStatus;
@@ -183,4 +187,4 @@ export const { resetPeople } = peopleSlice.actions;
 // export const selectSendSpacecraftToPlanetError = (state) =>
 // 	state.spacecrafts.sendSpacecraftToPlanetError;
 
-export default peopleSlice.reducer;
+export default participantsSlice.reducer;

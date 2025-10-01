@@ -30,7 +30,7 @@ function Events() {
 
 	return (
 		<main className="p-6">
-			<GridContainer // title={"People"}
+			<GridContainer // title={"Participants"}
 				title={"Events"}
 				description={"Select or add event below"}
 				variant={"gift-event"}

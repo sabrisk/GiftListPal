@@ -1,4 +1,4 @@
-const people = [
+const participants = [
 	{ id: 1, event_id: 1, name: "Javi" },
 	{ id: 2, event_id: 1, name: "Harley" },
 	{ id: 3, event_id: 1, name: "Brock" },
@@ -8,4 +8,4 @@ const people = [
 	{ id: 7, event_id: 2, name: "Michelle" },
 ];
 
-export default people;
+export default participants;
