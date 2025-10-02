@@ -12,6 +12,7 @@ export default function AddEvent() {
 	const [event, setEvent] = useState({
 		name: "",
 		date: "",
+		ownerId: 1,
 		description: "",
 	});
 

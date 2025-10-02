@@ -47,6 +47,7 @@ export const postGiftEvent = createAsyncThunk(
 			}
 
 			const data = await response.json();
+			console.log("thunk event post", data);
 			return data;
 		} catch (err) {
 			throw new Error(err.message);
@@ -131,7 +132,7 @@ const giftEventsSlice = createSlice({
 			.addCase(postGiftEvent.fulfilled, (state, action) => {
 				console.log("made it to postGiftEvent success");
 				state.postGiftEventStatus = "succeeded";
-				state.list.push(action.payload.event);
+				state.list.push(action.payload);
 				console.log(action.payload.message);
 			})
 			.addCase(postGiftEvent.rejected, (state, action) => {

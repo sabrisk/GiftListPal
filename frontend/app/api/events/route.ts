@@ -1,34 +1,71 @@
 import { NextResponse } from "next/server";
+import { query } from "../../../lib/db";
 
-let inc = 3;
-let items = [
-	{
-		id: 1,
-		name: "Harley the Donkey's Birthday",
-		date: "5-25-2025",
-		description: "A celebration of another year for Harley!",
-	},
-	{
-		id: 2,
-		name: "Christmas 2025",
-		date: "12-25-2025",
-		description: "Everyone getting together for Christmas!",
-	},
-];
+interface EventRequestBody {
+	name: string;
+	date: string;
+	ownerId: number;
+	description?: string;
+}
 
 export async function GET() {
-	return NextResponse.json(items, { status: 200 });
+	try {
+		const result = await query("SELECT * FROM events");
+		const events = result.rows.map(
+			({
+				id,
+				event_name,
+				event_date,
+				owner_id,
+				event_description,
+				created_at,
+			}) => {
+				return {
+					id: id,
+					name: event_name,
+					date: event_date,
+					description: event_description,
+					createdAt: created_at,
+				};
+			}
+		);
+		return NextResponse.json(events, { status: 200 });
+	} catch (err) {
+		console.error("Error getting event:", err);
+		return NextResponse.json(
+			{ error: "Database get failed" },
+			{ status: 500 }
+		);
+	}
 }
 
 export async function POST(req: Request) {
-	const body = await req.json();
-	items.push({ ...body, id: inc });
-	return NextResponse.json(
-		{ message: "Event created", event: { ...body, id: inc++ } },
-		{ status: 201 }
-	);
+	try {
+		const { name, date, ownerId, description }: EventRequestBody =
+			await req.json();
+		const result = await query(
+			`INSERT INTO events (event_name, event_date, owner_id, event_description)
+			VALUES ($1, $2, $3, $4)
+			RETURNING *;`,
+			[name, date, ownerId, description ?? null]
+		);
+		const row = result.rows[0];
+		const event = {
+			id: row.id,
+			name: row.event_name,
+			date: row.event_date,
+			description: row.event_description,
+			createdAt: row.created_at,
+		};
+		return NextResponse.json(event, { status: 201 });
+	} catch (err) {
+		console.error("Error inserting event:", err);
+		return NextResponse.json(
+			{ error: "Database insert failed" },
+			{ status: 500 }
+		);
+	}
 }
-
 export async function OPTIONS() {
 	return NextResponse.json(
 		{ error: "Method Not Allowed" },
@@ -38,38 +75,3 @@ export async function OPTIONS() {
 		}
 	);
 }
-
-// import type { NextApiRequest, NextApiResponse } from "next";
-
-// let items = [
-// 	{
-// 		id: 1,
-// 		name: "Harley the Donkey's Birthday",
-// 		date: "5-25-2025",
-// 		description: "A celebration of another year for Harley!",
-// 	},
-// 	{
-// 		id: 2,
-// 		name: "Christmas 2025",
-// 		date: "12-25-2025",
-// 		description: "Everyone getting together for Christmas!",
-// 	},
-// ];
-
-// let inc = 3;
-// export default function handler(req: NextApiRequest, res: NextApiResponse) {
-// 	switch (req.method) {
-// 		case "GET":
-// 			res.status(200).json(items);
-// 			break;
-// 		case "POST":
-// 			items.push({ ...req.body, id: inc });
-// 			console.log("from api", { ...req.body, id: inc });
-// 			res.status(200).json({ ...req.body, id: inc++ });
-// 			// I will need to post this to the database and also somehow return the primary key for the event's id for the event object I'm returning here
-// 			break;
-// default:
-// 	res.setHeader("Allow", ["GET", "POST", "PATCH", "DELETE"]);
-// 	res.status(405).end(`Method ${req.method} Not Allowed`);
-// 	}
-// }
