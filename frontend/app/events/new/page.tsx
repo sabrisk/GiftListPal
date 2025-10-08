@@ -85,6 +85,7 @@ export default function AddEvent() {
 					<input
 						onChange={handleChange}
 						type="date"
+						min={new Date().toISOString().split('T')[0]}
 						name="date"
 						className="border rounded px-3 py-2 bg-gray-900 text-white"
 						required
