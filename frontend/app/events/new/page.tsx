@@ -84,11 +84,11 @@ export default function AddEvent() {
 					<span className="mb-1 font-medium">Date</span>
 					<input
 						onChange={handleChange}
-						type="text"
+						type="date"
+						min={new Date().toISOString().split('T')[0]}
 						name="date"
 						className="border rounded px-3 py-2 bg-gray-900 text-white"
 						required
-						value={event.date}
 					/>
 				</label>
 				<label className="flex flex-col">
