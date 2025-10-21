@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { query } from "../../../lib/db";
+import { PrismaClient } from "../../../generated/prisma";
+const prisma = new PrismaClient();
 
 interface EventRequestBody {
 	name: string;
@@ -10,25 +12,17 @@ interface EventRequestBody {
 
 export async function GET() {
 	try {
-		const result = await query("SELECT * FROM events");
-		const events = result.rows.map(
-			({
-				id,
-				event_name,
-				event_date,
-				owner_id,
-				event_description,
-				created_at,
-			}) => {
-				return {
-					id: id,
-					name: event_name,
-					date: event_date,
-					description: event_description,
-					createdAt: created_at,
-				};
-			}
-		);
+		const events = await prisma.event.findMany({
+			select: {
+				id: true,
+				name: true,
+				date: true,
+				ownerId: true,
+				description: true,
+				createdAt: true,
+			},
+		});
+
 		return NextResponse.json(events, { status: 200 });
 	} catch (err) {
 		console.error("Error getting event:", err);
@@ -43,19 +37,32 @@ export async function POST(req: Request) {
 	try {
 		const { name, date, ownerId, description }: EventRequestBody =
 			await req.json();
-		const result = await query(
-			`INSERT INTO events (event_name, event_date, owner_id, event_description)
-			VALUES ($1, $2, $3, $4)
-			RETURNING *;`,
-			[name, date, ownerId, description ?? null]
-		);
-		const row = result.rows[0];
+
+		const result = await prisma.event.create({
+			data: {
+				name,
+				date: new Date(date),
+				ownerId,
+				description,
+			},
+			select: {
+				id: true,
+				name: true,
+				date: true,
+				ownerId: true,
+				description: true,
+				createdAt: true,
+			},
+		});
+		console.log("newEvent:", result);
+
 		const event = {
-			id: row.id,
-			name: row.event_name,
-			date: row.event_date,
-			description: row.event_description,
-			createdAt: row.created_at,
+			id: result.id,
+			name: result.name,
+			date: result.date,
+			ownerId: result.ownerId,
+			description: result.description,
+			createdAt: result.createdAt,
 		};
 		return NextResponse.json(event, { status: 201 });
 	} catch (err) {

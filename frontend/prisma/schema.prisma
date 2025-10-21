@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model EventParticipant {
+  userId      Int     @map("user_id")
+  eventId     Int     @map("event_id")
+  isShopper   Boolean @default(false) @map("is_shopper")
+  isRecipient Boolean @default(false) @map("is_recipient")
+
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([userId, eventId])
+  @@index([eventId], map: "idx_event_user_event_id")
+  @@map("event_user")
+}
+
+model Event {
+  id          Int       @id @default(autoincrement())
+  name        String    @db.VarChar(100)
+  date        DateTime  @db.Date
+  description String?
+  ownerId     Int?      @map("owner_id")
+  createdAt   DateTime  @default(now()) @db.Timestamptz(6) @map("created_at")
+
+  owner       User?       @relation("EventOwner", fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  participants  EventParticipant[]
+  gifts       Gift[]
+
+  @@map("events")
+}
+
+model Gift {
+  id               Int       @id @default(autoincrement())
+  itemName         String    @map("item_name")
+  link             String
+  eventId          Int?      @map("event_id")
+  recipientUserId  Int       @map("recipient_user_id")
+  addedByUserId    Int       @map("added_by_user_id")
+  reservedByUserId Int?      @map("reserved_by_user_id")
+  createdAt        DateTime  @default(now()) @db.Timestamptz(6) @map("created_at")
+
+  event            Event? @relation(fields: [eventId], references: [id], onUpdate: NoAction)
+  addedBy          User   @relation("GiftsAddedByUser", fields: [addedByUserId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  recipient        User   @relation("GiftsRecipientUser", fields: [recipientUserId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  reservedBy       User?  @relation("GiftsReservedByUser", fields: [reservedByUserId], references: [id], onUpdate: NoAction)
+
+  @@map("gifts")
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  email       String   @unique @db.VarChar(254)
+  firstName   String   @map("first_name") @db.VarChar(100)
+  lastName    String   @map("last_name") @db.VarChar(150)
+  createdAt   DateTime @default(now()) @db.Timestamptz(6) @map("created_at")
+
+  ownedEvents Event[]      @relation("EventOwner")
+  participations  EventParticipant[]
+  giftsAdded      Gift[]   @relation("GiftsAddedByUser")
+  giftsReceived   Gift[]   @relation("GiftsRecipientUser")
+  giftsReserved   Gift[]   @relation("GiftsReservedByUser")
+
+  @@map("users")
+}
