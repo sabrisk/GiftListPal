@@ -1,12 +1,18 @@
+"use client";
+import { signIn } from "next-auth/react";
 import { useState } from "react";
 
 export default function SignUp() {
 	const [user, setUser] = useState({
-		name: "",
+		// name: "",
 		email: "",
-		password: "",
-		confirmPassword: "",
+		// password: "",
+		// confirmPassword: "",
 	});
+
+	const sendgridAction = (formData: FormData) => {
+		signIn("sendgrid", user);
+	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -15,44 +21,47 @@ export default function SignUp() {
 		console.log(user);
 	};
 
-	const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
-		e.preventDefault();
+	// const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+	// 	e.preventDefault();
 
-		if (user.password !== user.confirmPassword) {
-			alert("Passwords do no match!");
-			return;
-		}
+	// 	if (user.password !== user.confirmPassword) {
+	// 		alert("Passwords do no match!");
+	// 		return;
+	// 	}
 
-		localStorage.setItem("user", JSON.stringify(user));
+	// 	localStorage.setItem("user", JSON.stringify(user));
 
-		try {
-			const response = await fetch("http://localhost:3001/signup", {
-				method: "POST",
-				headers: {
-					Accept: "application/json",
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(user),
-			});
+	// 	try {
+	// 		const response = await fetch("http://localhost:3001/signup", {
+	// 			method: "POST",
+	// 			headers: {
+	// 				Accept: "application/json",
+	// 				"Content-Type": "application/json",
+	// 			},
+	// 			body: JSON.stringify(user),
+	// 		});
 
-			if (!response.ok) {
-				const error = await response.text();
-				alert(`Signup failed: ${error}`);
-				return;
-			}
+	// 		if (!response.ok) {
+	// 			const error = await response.text();
+	// 			alert(`Signup failed: ${error}`);
+	// 			return;
+	// 		}
 
-			const jsonResponse = await response.json();
-			// do other things like redirect users to another page
-		} catch (error) {
-			alert("An error occurred");
-		}
-	};
+	// 		const jsonResponse = await response.json();
+	// 		// do other things like redirect users to another page
+	// 	} catch (error) {
+	// 		alert("An error occurred");
+	// 	}
+	// };
 
 	return (
 		<div>
 			<h1 className="text-3xl p-3 bg-gray-800">Sign up</h1>
-			<form className="flex flex-col p-3 gap-4 mt-6 max-w-sm mx-auto">
-				<label className="flex flex-col">
+			<form
+				action={sendgridAction}
+				className="flex flex-col p-3 gap-4 mt-6 max-w-sm mx-auto"
+			>
+				{/* <label className="flex flex-col">
 					<span className="mb-1 font-medium">Name</span>
 					<input
 						onChange={handleChange}
@@ -62,7 +71,7 @@ export default function SignUp() {
 						required
 						value={user.name}
 					/>
-				</label>
+				</label> */}
 				<label className="flex flex-col">
 					<span className="mb-1 font-medium">Email</span>
 					<input
@@ -75,7 +84,7 @@ export default function SignUp() {
 						value={user.email}
 					/>
 				</label>
-				<label className="flex flex-col">
+				{/* <label className="flex flex-col">
 					<span className="mb-1 font-medium">Password</span>
 					<input
 						onChange={handleChange}
@@ -98,9 +107,9 @@ export default function SignUp() {
 						autoComplete="new-password"
 						value={user.confirmPassword}
 					/>
-				</label>
+				</label> */}
 				<button
-					onClick={handleClick}
+					// onClick={handleClick}
 					type="submit"
 					className="mt-4 bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 rounded"
 				>
