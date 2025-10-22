@@ -12,7 +12,7 @@ export default function AddEvent() {
 	const [event, setEvent] = useState({
 		name: "",
 		date: "",
-		ownerId: 1,
+		ownerId: "ckzw9z1gk0001u3b4h7v89x1p",
 		description: "",
 	});
 

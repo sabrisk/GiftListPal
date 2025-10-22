@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server";
 import { query } from "../../../lib/db";
-import { PrismaClient } from "../../../generated/prisma";
-const prisma = new PrismaClient();
+import { prisma } from "../../../lib/prisma";
 
 interface EventRequestBody {
 	name: string;
 	date: string;
-	ownerId: number;
+	ownerId: string;
 	description?: string;
 }
 
@@ -38,7 +37,7 @@ export async function POST(req: Request) {
 		const { name, date, ownerId, description }: EventRequestBody =
 			await req.json();
 
-		const result = await prisma.event.create({
+		const event = await prisma.event.create({
 			data: {
 				name,
 				date: new Date(date),
@@ -54,16 +53,8 @@ export async function POST(req: Request) {
 				createdAt: true,
 			},
 		});
-		console.log("newEvent:", result);
+		console.log("newEvent:", event);
 
-		const event = {
-			id: result.id,
-			name: result.name,
-			date: result.date,
-			ownerId: result.ownerId,
-			description: result.description,
-			createdAt: result.createdAt,
-		};
 		return NextResponse.json(event, { status: 201 });
 	} catch (err) {
 		console.error("Error inserting event:", err);
