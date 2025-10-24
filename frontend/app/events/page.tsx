@@ -5,8 +5,7 @@ import { useSession } from "next-auth/react";
 
 import GridContainer from "@/components/GridContainer";
 import React, { useEffect } from "react";
-// import ListGrid from "../../../src/components/ListGrid";
-import ListGrid from "../../src/components/ListGrid";
+import ListGrid from "@/components/ListGrid";
 import {
 	getGiftEvents,
 	selectAllGiftEvents,

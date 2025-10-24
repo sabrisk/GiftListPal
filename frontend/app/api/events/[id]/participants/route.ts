@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server.js";
 
 // Fake in-memory database
-import participants from "../../../../../fakeDb.js";
+import participants from "@lib/fakeDb";
 
 export async function GET(
 	req: Request,

@@ -5,9 +5,9 @@ import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useRouter, useParams } from "next/navigation";
 
-import ListGrid from "../../../../src/components/ListGrid";
-import BackButton from "../../../../src/components/BackButton";
-import GridContainer from "../../../../src/components/GridContainer";
+import ListGrid from "@/components/ListGrid";
+import BackButton from "@/components/BackButton";
+import GridContainer from "@/components/GridContainer";
 
 import {
 	getParticipants,

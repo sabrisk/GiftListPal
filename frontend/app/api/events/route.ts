@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { query } from "../../../lib/db";
-import { prisma } from "../../../lib/prisma";
+import { prisma } from "@lib/prisma";
 import { auth } from "../../../auth";
 
 interface EventRequestBody {

@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import giftEventsReducer from "../features/GiftEvents/GiftEventsSlice";
-import participantsReducer from "../features/Participants/participantsSlice";
+import giftEventsReducer from "@/features/GiftEvents/GiftEventsSlice";
+import participantsReducer from "@/features/Participants/participantsSlice";
 // import spacecraftsReducer from "../features/spacecrafts/spacecraftsSlice";
 // import planetsReducer from "../features/planets/planetsSlice";
 

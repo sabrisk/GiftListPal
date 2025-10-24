@@ -2,7 +2,7 @@
 // app/layout.tsx
 import "@/styles/globals.css";
 import { Provider } from "react-redux";
-import { store } from "../src/store/store"; // adjust path if needed
+import { store } from "@/store/store"; // adjust path if needed
 import { SessionProvider } from "next-auth/react";
 
 export default function RootLayout({
