@@ -1,9 +1,11 @@
 "use client";
 
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useSession } from "next-auth/react";
 
 import GridContainer from "@/components/GridContainer";
 import React, { useEffect } from "react";
+// import ListGrid from "../../../src/components/ListGrid";
 import ListGrid from "../../src/components/ListGrid";
 import {
 	getGiftEvents,
@@ -13,15 +15,19 @@ import {
 import Link from "next/link";
 
 function Events() {
+	const { data: session } = useSession();
+	const userId = session?.user?.id;
 	const dispatch = useAppDispatch();
 	const giftEvents = useAppSelector(selectAllGiftEvents);
 	const giftEventsStatus = useAppSelector(selectGiftEventsStatus);
 	useEffect(() => {
-		if (giftEventsStatus === "idle") {
+		//userId to ensure user logged in
+		if (giftEventsStatus === "idle" && userId) {
 			dispatch(getGiftEvents());
 		}
-	}, [giftEventsStatus, dispatch]);
+	}, [giftEventsStatus, userId, dispatch]);
 
+	console.log("session", session);
 	const anEvent = {
 		name: "Christmas 2025",
 		date: "12-25-2025",

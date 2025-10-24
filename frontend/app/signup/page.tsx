@@ -10,8 +10,8 @@ export default function SignUp() {
 		// confirmPassword: "",
 	});
 
-	const sendgridAction = (formData: FormData) => {
-		signIn("sendgrid", user);
+	const resendAction = (formData: FormData) => {
+		signIn("resend", user);
 	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +58,7 @@ export default function SignUp() {
 		<div>
 			<h1 className="text-3xl p-3 bg-gray-800">Sign up</h1>
 			<form
-				action={sendgridAction}
+				action={resendAction}
 				className="flex flex-col p-3 gap-4 mt-6 max-w-sm mx-auto"
 			>
 				{/* <label className="flex flex-col">

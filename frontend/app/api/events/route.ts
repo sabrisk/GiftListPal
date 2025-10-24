@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { query } from "../../../lib/db";
 import { prisma } from "../../../lib/prisma";
+import { auth } from "../../../auth";
 
 interface EventRequestBody {
 	name: string;
@@ -10,18 +11,41 @@ interface EventRequestBody {
 }
 
 export async function GET() {
+	console.log("GET /api/events called");
+	const session = await auth();
+
+	if (!session?.user?.id) {
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+	}
+
 	try {
+		console.log("Fetching events for user:", session.user.id);
 		const events = await prisma.event.findMany({
+			where: { participants: { some: { userId: session.user.id } } },
 			select: {
 				id: true,
 				name: true,
 				date: true,
-				ownerId: true,
 				description: true,
+				ownerId: true,
 				createdAt: true,
+				participants: {
+					select: {
+						isShopper: true,
+						isRecipient: true,
+						user: {
+							select: {
+								id: true,
+								firstName: true,
+								lastName: true,
+								image: false,
+							},
+						},
+					},
+				},
 			},
 		});
-
+		console.log("Retrieved events:", events);
 		return NextResponse.json(events, { status: 200 });
 	} catch (err) {
 		console.error("Error getting event:", err);
@@ -33,27 +57,64 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+	const session = await auth();
+	if (!session?.user?.id) {
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+	}
+	const userId = session.user.id;
 	try {
-		const { name, date, ownerId, description }: EventRequestBody =
-			await req.json();
+		const { name, date, description }: EventRequestBody = await req.json();
 
-		const event = await prisma.event.create({
-			data: {
-				name,
-				date: new Date(date),
-				ownerId,
-				description,
-			},
-			select: {
-				id: true,
-				name: true,
-				date: true,
-				ownerId: true,
-				description: true,
-				createdAt: true,
-			},
+		const event = await prisma.$transaction(async (tx) => {
+			const event = await tx.event.create({
+				data: {
+					name,
+					date: new Date(date),
+					description,
+					ownerId: userId,
+				},
+			});
+
+			await tx.eventParticipant.create({
+				data: {
+					userId,
+					eventId: event.id,
+					isShopper: false,
+					isRecipient: false,
+				},
+			});
+
+			const fullEvent = await tx.event.findUnique({
+				where: { id: event.id },
+				select: {
+					id: true,
+					name: true,
+					date: true,
+					description: true,
+					ownerId: true,
+					createdAt: true,
+					participants: {
+						select: {
+							isShopper: true,
+							isRecipient: true,
+							user: {
+								select: {
+									id: true,
+									firstName: true,
+									lastName: true,
+									email: false, // or true if appropriate
+									image: false,
+								},
+							},
+						},
+					},
+				},
+			});
+
+			return fullEvent;
 		});
-		console.log("newEvent:", event);
+
+		console.log("Created event:", event?.participants[0].user);
 
 		return NextResponse.json(event, { status: 201 });
 	} catch (err) {

@@ -12,7 +12,6 @@ export default function AddEvent() {
 	const [event, setEvent] = useState({
 		name: "",
 		date: "",
-		ownerId: "ckzw9z1gk0001u3b4h7v89x1p",
 		description: "",
 	});
 
@@ -85,7 +84,7 @@ export default function AddEvent() {
 					<input
 						onChange={handleChange}
 						type="date"
-						min={new Date().toISOString().split('T')[0]}
+						min={new Date().toISOString().split("T")[0]}
 						name="date"
 						className="border rounded px-3 py-2 bg-gray-900 text-white"
 						required
