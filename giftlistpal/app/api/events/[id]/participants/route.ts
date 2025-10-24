@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server.js";
+import { NextResponse } from "next/server";
 
 // Fake in-memory database
 import participants from "@lib/fakeDb";
