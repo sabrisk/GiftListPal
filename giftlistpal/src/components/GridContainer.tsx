@@ -4,7 +4,6 @@ import Link from "next/link";
 type Variant = "participant" | "gift-event";
 type GridContainerProps = {
 	title: String;
-	// eventName: String;
 	description: String;
 	variant: Variant;
 	children?: React.ReactNode;

@@ -86,24 +86,4 @@ export const selectGiftEventById = (state, eventId) => {
 	);
 };
 
-// export const selectSpacecraftsStatus = (state) =>
-// 	state.spacecrafts.getSpacecraftsStatus;
-// export const selectSpacecraftsError = (state) =>
-// 	state.spacecrafts.getSpacecraftsError;
-
-// export const selectSpacecraftStatus = (state) =>
-// 	state.spacecrafts.buildSpacecraftStatus;
-// export const selectSpacecraftError = (state) =>
-// 	state.spacecrafts.buildSpacecraftError;
-
-// export const selectDestroySpacecraftByIdStatus = (state) =>
-// 	state.spacecrafts.destroySpacecraftByIdStatus;
-// export const selectDestroySpacecraftByIdError = (state) =>
-// 	state.spacecrafts.destroySpacecraftByIdError;
-
-// export const selectSendSpacecraftToPlanetStatus = (state) =>
-// 	state.spacecrafts.sendSpacecraftToPlanetStatus;
-// export const selectSendSpacecraftToPlanetError = (state) =>
-// 	state.spacecrafts.sendSpacecraftToPlanetError;
-
 export default giftEventsSlice.reducer;

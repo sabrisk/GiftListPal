@@ -25,7 +25,9 @@ import {
 function Participants() {
 	const dispatch = useAppDispatch();
 	const params = useParams();
-	const id = params?.id;
+	const id = params?.id ? Number(params.id) : null;
+	// const id = params?.id;
+	console.log("params id", id);
 
 	const giftEventsStatus = useAppSelector(selectGiftEventsStatus);
 	const giftEvent = useAppSelector((state) => selectGiftEventById(state, id));
@@ -40,7 +42,7 @@ function Participants() {
 	}, [giftEventsStatus, dispatch]);
 
 	useEffect(() => {
-		if (participantsStatus === "idle" && typeof id === "string") {
+		if (participantsStatus === "idle" && typeof id === "number") {
 			// @ts-ignore
 			dispatch(getParticipants(id)); // safe now
 		}
@@ -52,6 +54,7 @@ function Participants() {
 		};
 	}, [dispatch]);
 
+	console.log("giftEvent", giftEvent?.id);
 	return (
 		<main className="p-6">
 			<nav className="flex justify-end items-start">
@@ -60,12 +63,15 @@ function Participants() {
 
 			{giftEventsStatus === "succeeded" && giftEvent && (
 				<GridContainer
-					// title={"Participants"}
+					variant={"participant"}
 					title={giftEvent.name}
 					description={giftEvent.description}
-					variant={"participant"}
 				>
-					<ListGrid items={participants} />
+					<ListGrid
+						variant={"participant"}
+						items={participants}
+						eventId={giftEvent.id}
+					/>
 				</GridContainer>
 			)}
 			<button

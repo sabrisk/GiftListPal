@@ -14,13 +14,6 @@
 // 	name: string;
 // }
 
-export interface GiftEvent {
-	id: number;
-	name: string;
-	date?: string;
-	description?: string;
-}
-
 // export type Item = Participant | GiftEvent;
 
 // export interface Participant {

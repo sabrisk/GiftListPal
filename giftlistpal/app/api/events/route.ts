@@ -28,23 +28,8 @@ export async function GET() {
 				description: true,
 				ownerId: true,
 				createdAt: true,
-				participants: {
-					select: {
-						isShopper: true,
-						isRecipient: true,
-						user: {
-							select: {
-								id: true,
-								firstName: true,
-								lastName: true,
-								image: false,
-							},
-						},
-					},
-				},
 			},
 		});
-		console.log("Retrieved events:", events);
 		return NextResponse.json(events, { status: 200 });
 	} catch (err) {
 		console.error("Error getting event:", err);
@@ -99,8 +84,7 @@ export async function POST(req: Request) {
 							user: {
 								select: {
 									id: true,
-									firstName: true,
-									lastName: true,
+									name: true,
 									email: false, // or true if appropriate
 									image: false,
 								},

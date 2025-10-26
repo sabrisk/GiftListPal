@@ -1,21 +1,139 @@
 import { NextResponse } from "next/server";
-
-// Fake in-memory database
-import participants from "@lib/fakeDb";
+import { prisma } from "@lib/prisma";
+import { auth } from "../../../../../auth";
 
 export async function GET(
-	req: Request,
-	context: { params: Promise<{ id: string }> } // params is now a Promise
+	request: Request,
+	{ params }: { params: { id: string } }
 ) {
-	const { params } = context;
-	const { id } = await params; // await it!
-	const eventId = parseInt(id, 10);
+	const { id } = await params;
+	const eventId = id ? Number(id) : undefined;
+	// console.log(eventId);
+	// console.log(`Hi there GET /api/events/${eventId}/participants/`);
+	const session = await auth();
 
-	const eventParticipants = participants.filter(
-		(participant) => participant.event_id === eventId
+	if (!session?.user?.id) {
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+	}
+
+	try {
+		console.log("Fetching participants for event:", session.user.id);
+
+		const participants = await prisma.eventParticipant.findMany({
+			where: {
+				eventId, // only include join rows for this event
+			},
+			select: {
+				isShopper: true,
+				isRecipient: true,
+				user: {
+					select: {
+						id: true,
+						name: true,
+					},
+				},
+				event: {
+					select: {
+						id: true,
+						name: true,
+					},
+				},
+			},
+		});
+
+		const flattenedParticipants = participants.map((p) => ({
+			id: p.user.id,
+			name: p.user.name,
+			isShopper: p.isShopper,
+			isRecipient: p.isRecipient,
+		}));
+
+		console.log("Retrieved participants:", flattenedParticipants);
+		return NextResponse.json(flattenedParticipants, { status: 200 });
+	} catch (err) {
+		console.error("Error getting participants:", err);
+		return NextResponse.json(
+			{ error: "Database get failed" },
+			{ status: 500 }
+		);
+	}
+}
+
+// export async function POST(req: Request) {
+// 	const session = await auth();
+// 	if (!session?.user?.id) {
+// 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+// 	}
+// 	const userId = session.user.id;
+// 	try {
+// 		const { name, date, description }: EventRequestBody = await req.json();
+
+// 		const event = await prisma.$transaction(async (tx) => {
+// 			const event = await tx.event.create({
+// 				data: {
+// 					name,
+// 					date: new Date(date),
+// 					description,
+// 					ownerId: userId,
+// 				},
+// 			});
+
+// 			await tx.eventParticipant.create({
+// 				data: {
+// 					userId,
+// 					eventId: event.id,
+// 					isShopper: false,
+// 					isRecipient: false,
+// 				},
+// 			});
+
+// 			const fullEvent = await tx.event.findUnique({
+// 				where: { id: event.id },
+// 				select: {
+// 					id: true,
+// 					name: true,
+// 					date: true,
+// 					description: true,
+// 					ownerId: true,
+// 					createdAt: true,
+// 					participants: {
+// 						select: {
+// 							isShopper: true,
+// 							isRecipient: true,
+// 							user: {
+// 								select: {
+// 									id: true,
+// 									firstName: true,
+// 									lastName: true,
+// 									email: false, // or true if appropriate
+// 									image: false,
+// 								},
+// 							},
+// 						},
+// 					},
+// 				},
+// 			});
+
+// 			return fullEvent;
+// 		});
+
+// 		console.log("Created event:", event?.participants[0].user);
+
+// 		return NextResponse.json(event, { status: 201 });
+// 	} catch (err) {
+// 		console.error("Error inserting event:", err);
+// 		return NextResponse.json(
+// 			{ error: "Database insert failed" },
+// 			{ status: 500 }
+// 		);
+// 	}
+// }
+export async function OPTIONS() {
+	return NextResponse.json(
+		{ error: "Method Not Allowed" },
+		{
+			status: 405,
+			headers: { Allow: "GET, POST" },
+		}
 	);
-
-	console.log(eventParticipants);
-
-	return NextResponse.json(eventParticipants, { status: 200 });
 }

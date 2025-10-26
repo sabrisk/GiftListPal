@@ -40,7 +40,7 @@ function Events() {
 				description={"Select or add event below"}
 				variant={"gift-event"}
 			>
-				<ListGrid items={giftEvents} />
+				<ListGrid variant={"gift-event"} items={giftEvents} />
 			</GridContainer>
 
 			<button
