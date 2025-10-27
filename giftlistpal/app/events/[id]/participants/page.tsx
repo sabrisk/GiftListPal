@@ -21,12 +21,25 @@ import {
 	selectGiftEventsStatus,
 	selectGiftEventById,
 } from "@/features/GiftEvents/GiftEventsSlice";
+import { useSession } from "next-auth/react";
 
 function Participants() {
+	const { data: session, status } = useSession();
+	const router = useRouter();
+
+	useEffect(() => {
+		if (status === "unauthenticated") {
+			router.replace("/signup"); // redirect to login/signup page
+		}
+	}, [status, router]);
+
+	useEffect(() => {
+		document.title = `People | GiftListPal`;
+	}, []);
+
 	const dispatch = useAppDispatch();
 	const params = useParams();
 	const id = params?.id ? Number(params.id) : null;
-	// const id = params?.id;
 	console.log("params id", id);
 
 	const giftEventsStatus = useAppSelector(selectGiftEventsStatus);

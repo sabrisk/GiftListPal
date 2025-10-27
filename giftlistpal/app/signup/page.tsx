@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 export default function SignUp() {
 	const router = useRouter();
-	const { data: session } = useSession();
+	const { data: session, status } = useSession();
 	const [user, setUser] = useState({
 		email: "",
 	});
@@ -24,14 +24,18 @@ export default function SignUp() {
 	};
 
 	useEffect(() => {
-		if (session) {
-			router.push("/events");
-		}
-	}, [session, router]);
+		document.title = `Sign in | GiftListPal`;
+	}, []);
 
-	return (
+	useEffect(() => {
+		if (status === "authenticated") {
+			router.replace("/events"); // replace prevents “back” navigation flash
+		}
+	}, [status, router]);
+
+	const signUpCode = (
 		<div>
-			<h1 className="text-3xl p-3 bg-gray-800">Sign up</h1>
+			<h1 className="text-3xl p-3 mt-15">Sign up</h1>
 			<form
 				onSubmit={resendAction}
 				className="flex flex-col p-3 gap-4 mt-6 max-w-sm mx-auto"
@@ -50,11 +54,18 @@ export default function SignUp() {
 				</label>
 				<button
 					type="submit"
-					className="mt-4 bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 rounded"
+					className="mt-4 bg-[#F5EFE7] hover:bg-[#beb7af] text-black font-semibold py-2 rounded"
 				>
-					Sign Up
+					Continue
 				</button>
 			</form>
 		</div>
 	);
+
+	const loading = <div>Loading...</div>;
+	if (status === "loading") {
+		return loading;
+	}
+
+	return signUpCode;
 }
