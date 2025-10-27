@@ -16,8 +16,8 @@ function GridContainer({
 	variant,
 }: GridContainerProps) {
 	return (
-		<section className="max-w-6xl mx-auto px-8 mt-16">
-			<div className=" mb-7 pb-5  ">
+		<>
+			<div className=" mb-12">
 				<h1 className="mb-4 font-bold text-4xl">{title}</h1>
 				<h3 className="text-lg">{description}</h3>
 			</div>
@@ -29,7 +29,7 @@ function GridContainer({
 				)}
 			</button>
 			{children}
-		</section>
+		</>
 	);
 }
 

@@ -69,7 +69,7 @@ function Participants() {
 
 	console.log("giftEvent", giftEvent?.id);
 	return (
-		<main className="p-6">
+		<main>
 			<nav className="flex justify-end items-start">
 				<BackButton />
 			</nav>
