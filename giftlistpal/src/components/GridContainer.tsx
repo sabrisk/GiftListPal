@@ -7,6 +7,7 @@ type GridContainerProps = {
 	description: String;
 	variant: Variant;
 	children?: React.ReactNode;
+	eventId?: number;
 };
 
 function GridContainer({
@@ -14,20 +15,26 @@ function GridContainer({
 	title,
 	description,
 	variant,
+	eventId,
 }: GridContainerProps) {
+	const linkUrl =
+		variant === "participant"
+			? `/events/${eventId}/participants/invite`
+			: `/events/new`;
+	const buttonTitle = variant === "participant" ? "Add Person" : "Add Event";
+
 	return (
 		<>
 			<div className=" mb-12">
 				<h1 className="mb-4 font-bold text-4xl">{title}</h1>
 				<h3 className="text-lg">{description}</h3>
 			</div>
-			<button className="hidden md:block bg-[#F5EFE7] text-[#313131] font-bold border-1 rounded border-[#F5EFE7] px-2 ">
-				{variant === "participant" ? (
-					"Add Person"
-				) : (
-					<Link href={`/events/new`}>Add Event</Link>
-				)}
-			</button>
+			<Link
+				href={linkUrl}
+				className="hidden md:inline-block bg-[#F5EFE7] text-[#313131] font-bold border rounded border-[#F5EFE7] px-2 py-1 text-center"
+			>
+				{buttonTitle}
+			</Link>
 			{children}
 		</>
 	);
