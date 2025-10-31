@@ -34,31 +34,35 @@ export default function SignUp() {
 	}, [status, router]);
 
 	const signUpCode = (
-		<div>
-			<h1 className="text-3xl p-3 mt-15">Sign up</h1>
-			<form
-				onSubmit={resendAction}
-				className="flex flex-col p-3 gap-4 mt-6 max-w-sm mx-auto"
-			>
-				<label className="flex flex-col">
-					<span className="mb-1 font-medium">Email</span>
-					<input
-						onChange={handleChange}
-						type="email"
-						name="email"
-						className="border rounded px-3 py-2 bg-gray-900 text-white"
-						required
-						autoComplete="email"
-						value={user.email}
-					/>
-				</label>
-				<button
-					type="submit"
-					className="mt-4 bg-[#F5EFE7] hover:bg-[#beb7af] text-black font-semibold py-2 rounded"
+		<div className="flex pt-20 sm:pt-0 sm:min-h-screen justify-center items-center">
+			<div className="flex flex-col gap-8 items-center max-w-md mx-auto sm:p-12 rounded-md  sm:bg-gray-700  sm:border-slate-600 sm:border-1 mt-10 mb-10">
+				<h1 className="text-3xl  font-bold">GiftListPal</h1>
+				<h2 className="text-2xl ">Welcome</h2>
+				<h1 className=" ">Sign in to continue to the Gift Dashboard</h1>
+				<form
+					onSubmit={resendAction}
+					className="flex flex-col gap-4 max-w-md w-full"
 				>
-					Continue
-				</button>
-			</form>
+					<label className="flex flex-col">
+						<input
+							onChange={handleChange}
+							type="email"
+							name="email"
+							className="border rounded pl-6 pr-3 py-3 text-lg text-white"
+							required
+							autoComplete="email"
+							value={user.email}
+							placeholder="Email address*"
+						/>
+					</label>
+					<button
+						type="submit"
+						className="mt-4 bg-[#F5EFE7] hover:bg-[#beb7af] text-black font-semibold py-2 rounded"
+					>
+						Continue
+					</button>
+				</form>
+			</div>
 		</div>
 	);
 
