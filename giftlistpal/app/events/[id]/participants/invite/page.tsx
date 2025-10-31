@@ -1,50 +1,54 @@
-import { Label } from "../components/ui/label";
-import { RadioGroup, RadioGroupItem } from "../components/ui/radio-group";
+"use client";
 
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { inviteParticipant } from "@/features/Participants/participantsSlice";
+import { useAppDispatch } from "@/store/hooks";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Invite() {
+	const dispatch = useAppDispatch();
+	const router = useRouter();
 	const [invite, setInvite] = useState({
-		name: "",
 		email: "",
-		description: "",
 		type: "",
 	});
+	const [inviteSentMessage, setInviteSentMessage] = useState("");
+
+	const params = useParams();
+	const id = params?.id ? Number(params.id) : undefined;
+
+	if (!id) {
+		return <div>Invalid event ID</div>;
+	}
 
 	const handleChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
 		const { name, value } = e.target;
-		console.log(e.target);
 		setInvite((prev) => ({ ...prev, [name]: value }));
 	};
 
 	const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-
-		localStorage.setItem("invite", JSON.stringify(invite));
-
 		try {
-			const response = await fetch("http://localhost:3001/Invite", {
-				method: "POST",
-				headers: {
-					Accept: "application/json",
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(invite),
-			});
-
-			if (!response.ok) {
-				const error = await response.text();
-				alert(`Invite failed: ${error}`);
-				return;
-			}
-
-			const jsonResponse = await response.json();
-			// do other things like redirect users to another page
-		} catch (error) {
-			alert("An error occurred");
+			const result = await dispatch(
+				inviteParticipant({ ...invite, eventId: id })
+			).unwrap();
+			setInviteSentMessage(result.message);
+			router.push(`/events/${id}/participants`);
+		} catch (err: any) {
+			console.log(err);
+			setInviteSentMessage(err || "Failed to send invite.");
 		}
+
+		// if (result.success) {
+		// 	setInviteSentMessage("Invite sent successfully!");
+		// 	router.push(`/events/${id}/participants`);
+		// } else {
+		// 	setInviteSentMessage("Failed to send invite.");
+		// }
 	};
 
 	return (
@@ -62,19 +66,6 @@ export default function Invite() {
 				<h1 className="text-2xl mt-2mb-6 ">Christmas 2025</h1>
 			</header>
 			<form className="flex flex-col gap-4 mt-6 max-w-sm mx-auto">
-				<label className="flex flex-col">
-					<span className="mb-1 font-medium">Name</span>
-					<input
-						onChange={handleChange}
-						type="text"
-						name="name"
-						autoComplete="off"
-						className="border rounded px-3 py-2 bg-gray-900 text-white"
-						required
-						maxLength={36}
-						value={invite.name}
-					/>
-				</label>
 				<label className="flex flex-col">
 					<span className="mb-1 font-medium">E-mail</span>
 					<input
@@ -106,7 +97,11 @@ export default function Invite() {
 						<Label htmlFor="both">Both</Label>
 					</div>
 				</RadioGroup>
-
+				{inviteSentMessage && (
+					<p className="text-green-500 font-medium">
+						{inviteSentMessage}
+					</p>
+				)}
 				<button
 					onClick={handleClick}
 					type="submit"

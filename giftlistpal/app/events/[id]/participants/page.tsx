@@ -39,7 +39,7 @@ function Participants() {
 
 	const dispatch = useAppDispatch();
 	const params = useParams();
-	const id = params?.id ? Number(params.id) : null;
+	const id = params?.id ? Number(params.id) : undefined;
 	console.log("params id", id);
 
 	const giftEventsStatus = useAppSelector(selectGiftEventsStatus);
@@ -79,6 +79,7 @@ function Participants() {
 					variant={"participant"}
 					title={giftEvent.name}
 					description={giftEvent.description}
+					eventId={id}
 				>
 					<ListGrid
 						variant={"participant"}
