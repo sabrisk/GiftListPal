@@ -14,7 +14,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<SessionProvider>
-				<body className="max-w-6xl mx-auto px-7 sm:px-14">
+				<body className="max-w-6xl min-h-screen mx-auto px-4 sm:px-6 md:px-8">
 					<NavBar />
 					<Provider store={store}>{children}</Provider>
 				</body>
