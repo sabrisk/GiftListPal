@@ -8,7 +8,9 @@ import { useAppDispatch } from "@/store/hooks";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import { useAppSelector } from "@/store/hooks";
 import type { Session } from "next-auth";
+import { selectGiftEventById } from "@/features/GiftEvents/GiftEventsSlice";
 
 import {
 	Dialog,
@@ -48,6 +50,7 @@ export default function Invite() {
 	const params = useParams();
 	const { data: session, status } = useSession();
 	const id = params?.id ? Number(params.id) : undefined;
+	const giftEvent = useAppSelector((state) => selectGiftEventById(state, id));
 
 	const [inviteSentMessage, setInviteSentMessage] = useState("");
 	const [errorDialogOpen, setErrorDialogOpen] = useState(false);
@@ -63,11 +66,9 @@ export default function Invite() {
 			const result = await dispatch(
 				inviteParticipant({ ...values, eventId: id })
 			).unwrap();
-			console.log("from try");
 			setInviteSentMessage(result.message);
 			router.push(`/events/${id}/participants`);
 		} catch (err: any) {
-			console.log("from catch", err);
 			setErrorMessage(err || "Failed to send invite. Please try again.");
 			setErrorDialogOpen(true);
 		}
@@ -81,7 +82,6 @@ export default function Invite() {
 		validate: (values) => validate(values, session),
 		onSubmit: handleSubmit,
 	});
-
 	return (
 		<div className="p-3">
 			<header className="flex justify-end items-start">
@@ -94,7 +94,7 @@ export default function Invite() {
 			</header>
 			<header className="flex flex-col items-center">
 				<h1 className="text-3xl mt-15 mb-6 font-bold">Invite</h1>
-				<h1 className="text-2xl mt-2mb-6 ">Christmas 2025</h1>
+				<h1 className="text-2xl mt-2mb-6 ">{giftEvent.name}</h1>
 			</header>
 			<form
 				onSubmit={formik.handleSubmit}
