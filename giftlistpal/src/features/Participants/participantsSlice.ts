@@ -79,6 +79,12 @@ export const inviteParticipant = createAsyncThunk<
 
 			return data;
 		} catch (err: any) {
+			if (err instanceof TypeError && err.message === "Failed to fetch") {
+				return rejectWithValue(
+					"Unable to connect to the server. Please try again later."
+				);
+			}
+
 			console.log("thunk invite error", err);
 			return rejectWithValue(err.message);
 		}

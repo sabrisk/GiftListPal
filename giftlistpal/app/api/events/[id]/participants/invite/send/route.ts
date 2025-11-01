@@ -57,6 +57,24 @@ export async function POST(req: Request): Promise<NextResponse> {
 					"This person is already in the event"
 				);
 			}
+
+			const existingInvite = await tx.eventInvite.findFirst({
+				where: {
+					eventId,
+					email,
+					used: false,
+					expiresAt: {
+						gt: new Date(),
+					},
+				},
+			});
+			if (existingInvite) {
+				return errorResponse(
+					"INVITE_ALREADY_SENT",
+					"An active invite has already been sent to this email"
+				);
+			}
+
 			await tx.eventInvite.create({
 				data: { eventId, email, token, expiresAt },
 			});
