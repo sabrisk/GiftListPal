@@ -15,8 +15,26 @@ function ListItem({ id, name, variant, eventId }: ListItemProps) {
 			: `/events/${eventId}/participants/${id}`;
 	return (
 		<Link href={linkUrl}>
-			<div className="flex flex-col justify-start group cursor-pointer text-2xl bg-gray-700 rounded border hover:border-[#F5EFE7] border-slate-600">
-				<div className="p-5 flex justify-center flex-col flex-1 md:border-[#3d3d3d]">
+			<div
+				className="flex flex-col
+							justify-start
+							group
+							rounded
+							cursor-pointer
+							text-2xl
+							bg-[var(--surface)] 
+							border
+							border-[var(--surface-border)]
+							hover:border-[var(--primary)]"
+			>
+				<div
+					className="p-5
+								flex
+								flex-1
+								flex-col
+								justify-center
+								md:border-[#3d3d3d]"
+				>
 					{name}
 				</div>
 			</div>

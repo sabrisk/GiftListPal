@@ -86,7 +86,7 @@ export default function Invite() {
 		<div className="p-3">
 			<header className="flex justify-end items-start">
 				<button
-					className="fixed top-0 left-0 w-12 h-12 pb-1 bg-gray-600 text-white text-4xl border border-slate-600 flex items-center justify-center  hover:bg-gray-500 transition-colors"
+					className="fixed top-0 left-0 w-12 h-12 pb-1 bg-gray-600 text-4xl border border-slate-600 flex items-center justify-center  hover:bg-gray-500 "
 					aria-label="Back"
 				>
 					&lsaquo;
@@ -106,7 +106,7 @@ export default function Invite() {
 						type="email"
 						id="email"
 						name="email"
-						className="border rounded px-3 py-2 bg-gray-900 text-white"
+						className="border rounded px-3 py-2"
 						onChange={formik.handleChange}
 						value={formik.values.email}
 						onBlur={formik.handleBlur}
@@ -150,7 +150,7 @@ export default function Invite() {
 				)}
 				<button
 					type="submit"
-					className="mt-4 bg-[#F5EFE7] hover:bg-[#beb7af] text-black font-semibold py-2 rounded"
+					className="mt-4 bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-black font-semibold py-2 rounded"
 				>
 					Send Invite
 				</button>
@@ -159,16 +159,18 @@ export default function Invite() {
 			{/* 💬 Error Dialog */}
 			<Dialog open={errorDialogOpen} onOpenChange={setErrorDialogOpen}>
 				<DialogContent>
-					<DialogHeader>
-						<DialogTitle>Invite Failed</DialogTitle>
-						<DialogDescription>
+					<DialogHeader className="">
+						<DialogTitle className="mb-3">
+							Invite Failed
+						</DialogTitle>
+						<DialogDescription className="mt-4 text-center mb-4 text-lg">
 							{errorMessage ||
 								"An unexpected error occurred. Please try again later."}
 						</DialogDescription>
 					</DialogHeader>
-					<DialogFooter>
+					<DialogFooter className="mx-auto">
 						<Button
-							variant="invite"
+							className="bg-[var(--primary)] text-[var(--primary-text)] font-semibold"
 							size="default"
 							onClick={() => setErrorDialogOpen(false)}
 						>
@@ -179,13 +181,4 @@ export default function Invite() {
 			</Dialog>
 		</div>
 	);
-}
-
-{
-	/* <button
-					className="bg-gray-600 text-white text-4xl border border-slate-600 flex items-center justify-center  hover:bg-gray-500 transition-colors"
-					aria-label="Back"
-				>
-					&lsaquo;
-				</button> */
 }

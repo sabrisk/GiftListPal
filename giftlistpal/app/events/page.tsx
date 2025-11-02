@@ -49,15 +49,28 @@ function Events() {
 		<main>
 			<GridContainer // title={"Participants"}
 				title={"Events"}
-				description={"Select or add event below"}
+				description={"Select or add events below"}
 				variant={"gift-event"}
 			>
 				<ListGrid variant={"gift-event"} items={giftEvents} />
 			</GridContainer>
 
 			<button
-				className="md:hidden fixed bottom-7 right-7 w-16 h-16 bg-gray-600 text-white text-4xl border border-slate-600 rounded-full flex items-center justify-center  hover:bg-gray-500 transition-colors"
-				aria-label="Add Event"
+				className="flex
+							fixed
+							bottom-7
+							right-7
+							w-16
+							h-16
+							rounded-full
+							items-center
+							justify-center
+							text-4xl
+							bg-[var(--primary)]
+							hover:bg-[var(--primary-hover)]
+							text-[var(--primary-text)]
+							sm:hidden"
+				aria-label="Add	Event"
 			>
 				<Link href={`/events/new`}>+</Link>
 			</button>

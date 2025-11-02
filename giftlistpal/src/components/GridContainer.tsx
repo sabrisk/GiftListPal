@@ -25,13 +25,22 @@ function GridContainer({
 
 	return (
 		<>
-			<div className=" mb-12">
+			<div className="mb-12">
 				<h1 className="mb-4 font-bold text-4xl">{title}</h1>
 				<h3 className="text-lg">{description}</h3>
 			</div>
 			<Link
 				href={linkUrl}
-				className="hidden md:inline-block bg-[#F5EFE7] text-[#313131] font-bold border rounded border-[#F5EFE7] px-2 py-1 text-center"
+				className="hidden
+							sm:inline-block
+							rounded
+							px-2
+							py-1
+							font-bold
+							text-center
+							bg-[var(--primary)]
+							hover:bg-[var(--primary-hover)]
+							text-[var(--primary-text)]"
 			>
 				{buttonTitle}
 			</Link>

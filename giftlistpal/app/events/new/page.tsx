@@ -53,10 +53,10 @@ export default function AddEvent() {
 	};
 
 	return (
-		<div className="p-3">
+		<div className="p-3 ">
 			<header className="flex justify-end items-start">
 				<button
-					className="fixed top-0 left-0 w-12 h-12 pb-1 bg-gray-600 text-white text-4xl border border-slate-600 flex items-center justify-center  hover:bg-gray-500 transition-colors"
+					className="fixed top-0 left-0 w-12 h-12 pb-1 bg-gray-600 text-4xl border border-slate-600 flex items-center justify-center  hover:bg-gray-500 transition-colors"
 					aria-label="Back"
 				>
 					&lsaquo;
@@ -73,7 +73,7 @@ export default function AddEvent() {
 						type="text"
 						name="name"
 						autoComplete="off"
-						className="border rounded px-3 py-2 bg-gray-900 text-white"
+						className="border rounded px-3 py-2"
 						required
 						maxLength={36}
 						value={event.name}
@@ -86,7 +86,7 @@ export default function AddEvent() {
 						type="date"
 						min={new Date().toISOString().split("T")[0]}
 						name="date"
-						className="border rounded px-3 py-2 bg-gray-900 text-white"
+						className="border rounded px-3 py-2"
 						required
 					/>
 				</label>
@@ -97,14 +97,14 @@ export default function AddEvent() {
 						value={event.description}
 						onChange={handleChange}
 						maxLength={180}
-						className="border rounded px-3 py-2 bg-gray-900 text-white resize-none h-32"
+						className="border rounded px-3 py-2 resize-none h-32"
 						required
 					/>
 				</label>
 				<button
 					onClick={handleClick}
 					type="submit"
-					className="mt-4  bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 rounded"
+					className="mt-4 bg-[var(--primary)] text-[var(--primary-text)] font-semibold py-2 rounded"
 				>
 					Add Event
 				</button>

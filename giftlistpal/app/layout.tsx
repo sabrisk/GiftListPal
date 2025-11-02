@@ -12,7 +12,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="en">
+		<html className={"dark"} lang="en">
 			<SessionProvider>
 				<body className="">
 					<main className="max-w-6xl min-h-screen mx-auto px-4 sm:px-6 md:px-8">
