@@ -59,6 +59,9 @@ export default function Invite() {
 	if (!id) {
 		return <div>Invalid event ID</div>;
 	}
+	if (!giftEvent) {
+		return <div>No event loaded, please return to events page</div>;
+	}
 
 	const handleSubmit = async (values: Invite) => {
 		try {
