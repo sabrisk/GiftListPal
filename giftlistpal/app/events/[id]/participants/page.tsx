@@ -70,10 +70,6 @@ function Participants() {
 	console.log("giftEvent", giftEvent?.id);
 	return (
 		<main>
-			<nav className="flex justify-end items-start">
-				<BackButton />
-			</nav>
-
 			{giftEventsStatus === "succeeded" && giftEvent && (
 				<GridContainer
 					variant={"participant"}

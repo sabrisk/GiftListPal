@@ -33,7 +33,7 @@ export default function Navbar() {
 	return (
 		<>
 			{!hideNavbar && (
-				<nav className="flex justify-end items-start mt-8 mb-15">
+				<nav className="flex justify-end items-start mt-13 mb-15">
 					{session?.user?.name}
 					<button
 						onClick={handleClick}

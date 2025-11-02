@@ -84,14 +84,6 @@ export default function Invite() {
 	});
 	return (
 		<div className="p-3">
-			<header className="flex justify-end items-start">
-				<button
-					className="fixed top-0 left-0 w-12 h-12 pb-1 bg-gray-600 text-4xl border border-slate-600 flex items-center justify-center  hover:bg-gray-500 "
-					aria-label="Back"
-				>
-					&lsaquo;
-				</button>
-			</header>
 			<header className="flex flex-col items-center">
 				<h1 className="text-3xl mt-15 mb-6 font-bold">Invite</h1>
 				<h1 className="text-2xl mt-2mb-6 ">{giftEvent.name}</h1>
