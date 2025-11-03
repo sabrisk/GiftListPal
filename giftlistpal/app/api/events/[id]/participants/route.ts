@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@lib/prisma";
 import { auth } from "../../../../../auth";
+import { participantSelect } from "@lib/prismaSelects";
 
 export async function GET(
 	request: Request,
@@ -23,22 +24,7 @@ export async function GET(
 			where: {
 				eventId, // only include join rows for this event
 			},
-			select: {
-				isShopper: true,
-				isRecipient: true,
-				user: {
-					select: {
-						id: true,
-						name: true,
-					},
-				},
-				event: {
-					select: {
-						id: true,
-						name: true,
-					},
-				},
-			},
+			select: participantSelect,
 		});
 
 		const flattenedParticipants = participants.map((p) => ({
