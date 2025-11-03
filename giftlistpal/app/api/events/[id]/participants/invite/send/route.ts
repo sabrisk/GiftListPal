@@ -34,7 +34,7 @@ export async function POST(req: Request): Promise<NextResponse> {
 
 		if (!eventId || !email) {
 			return NextResponse.json(
-				errorResponse("INVALID_INPUT", "Missing eventId or email"),
+				errorResponse("BAD_REQUEST", "Missing eventId or email"),
 				{ status: 400 }
 			);
 		}
