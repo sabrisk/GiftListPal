@@ -2,22 +2,36 @@ import { NextResponse } from "next/server";
 import { prisma } from "@lib/prisma";
 import { auth } from "../../../auth";
 
-interface EventRequestBody {
-	name: string;
-	date: string;
-	ownerId: string;
-	description?: string;
-}
+import {
+	CreateEventRequest,
+	SuccessResponse,
+	ErrorResponse,
+} from "@/types/event";
+
+const successResponse = <T>(data: T, message: string): SuccessResponse<T> => ({
+	success: true,
+	data,
+	message,
+});
+
+const errorResponse = (code: string, message: string): ErrorResponse => ({
+	success: false,
+	code,
+	message,
+});
 
 export async function GET() {
-	console.log("GET /api/events called");
-	const session = await auth();
-
-	if (!session?.user?.id) {
-		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-	}
-
 	try {
+		console.log("GET /api/events called");
+		const session = await auth();
+
+		if (!session?.user?.id) {
+			return NextResponse.json(
+				errorResponse("UNAUTHORIZED", "Unauthorized"),
+				{ status: 401 }
+			);
+		}
+
 		console.log("Fetching events for user:", session.user.id);
 		const events = await prisma.event.findMany({
 			where: { participants: { some: { userId: session.user.id } } },
@@ -30,24 +44,44 @@ export async function GET() {
 				createdAt: true,
 			},
 		});
-		return NextResponse.json(events, { status: 200 });
-	} catch (err) {
-		console.error("Error getting event:", err);
 		return NextResponse.json(
-			{ error: "Database get failed" },
+			successResponse(events, "Events retreived successfully"),
+			{
+				status: 200,
+			}
+		);
+	} catch (err) {
+		console.error("Unhandled error in event route:", err);
+		return NextResponse.json(
+			errorResponse("INTERNAL_ERROR", "Internal server error"),
 			{ status: 500 }
 		);
 	}
 }
 
 export async function POST(req: Request) {
-	const session = await auth();
-	if (!session?.user?.id) {
-		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-	}
-	const userId = session.user.id;
 	try {
-		const { name, date, description }: EventRequestBody = await req.json();
+		const session = await auth();
+		if (!session?.user?.id) {
+			return NextResponse.json(
+				errorResponse("UNAUTHORIZED", "Unauthorized"),
+				{ status: 401 }
+			);
+		}
+		const userId = session.user.id;
+
+		const { name, date, description }: CreateEventRequest =
+			await req.json();
+
+		if (!name || !date || !description) {
+			return NextResponse.json(
+				errorResponse(
+					"BAD_REQUEST",
+					"Missing name, date, or description"
+				),
+				{ status: 400 }
+			);
+		}
 
 		const event = await prisma.$transaction(async (tx) => {
 			const event = await tx.event.create({
@@ -77,33 +111,27 @@ export async function POST(req: Request) {
 					description: true,
 					ownerId: true,
 					createdAt: true,
-					participants: {
-						select: {
-							isShopper: true,
-							isRecipient: true,
-							user: {
-								select: {
-									id: true,
-									name: true,
-									email: false, // or true if appropriate
-									image: false,
-								},
-							},
-						},
-					},
 				},
 			});
 
 			return fullEvent;
 		});
 
-		console.log("Created event:", event?.participants[0].user);
+		if (!event) {
+			return NextResponse.json(
+				errorResponse("NOT_FOUND", "Event could not be created"),
+				{ status: 500 }
+			);
+		}
 
-		return NextResponse.json(event, { status: 201 });
+		return NextResponse.json(
+			successResponse(event, "Event added successfully"),
+			{ status: 201 }
+		);
 	} catch (err) {
 		console.error("Error inserting event:", err);
 		return NextResponse.json(
-			{ error: "Database insert failed" },
+			errorResponse("INTERNAL_ERROR", "Internal server error"),
 			{ status: 500 }
 		);
 	}
