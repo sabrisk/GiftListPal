@@ -96,11 +96,11 @@ model Event {
 	id					Int					@id @default(autoincrement())
 	name				String				@db.VarChar(100)
 	date				DateTime			@db.Date
-	description			String?
-	ownerId				String?				@map("owner_id")
+	description			String
+	ownerId				String				@map("owner_id")
 	createdAt			DateTime			@default(now()) @db.Timestamptz(6) @map("created_at")
 
-	owner				User?				@relation("EventOwner", fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+	owner				User				@relation("EventOwner", fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 	participants		EventParticipant[]
 	gifts				Gift[]
 	invites				EventInvite[]
