@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 
 import ListGrid from "@/components/ListGrid";
 import BackButton from "@/components/BackButton";
@@ -21,32 +21,23 @@ import {
 	selectGiftEventsStatus,
 	selectGiftEventById,
 } from "@/features/GiftEvents/GiftEventsSlice";
-import { useSession } from "next-auth/react";
+
+import AuthGuard from "@/components/AuthGuard";
 
 function Participants() {
-	const { data: session, status } = useSession();
-	const router = useRouter();
+	const dispatch = useAppDispatch();
+	const params = useParams();
+	const id = params?.id ? Number(params.id) : undefined;
 
-	useEffect(() => {
-		if (status === "unauthenticated") {
-			router.replace("/signup"); // redirect to login/signup page
-		}
-	}, [status, router]);
+	const giftEventsStatus = useAppSelector(selectGiftEventsStatus);
+	const participantsStatus = useAppSelector(selectParticipantsStatus);
+
+	const giftEvent = useAppSelector((state) => selectGiftEventById(state, id));
+	const participants = useAppSelector(selectAllParticipants);
 
 	useEffect(() => {
 		document.title = `People | GiftListPal`;
 	}, []);
-
-	const dispatch = useAppDispatch();
-	const params = useParams();
-	const id = params?.id ? Number(params.id) : undefined;
-	console.log("params id", id);
-
-	const giftEventsStatus = useAppSelector(selectGiftEventsStatus);
-	const giftEvent = useAppSelector((state) => selectGiftEventById(state, id));
-
-	const participants = useAppSelector(selectAllParticipants);
-	const participantsStatus = useAppSelector(selectParticipantsStatus);
 
 	useEffect(() => {
 		if (giftEventsStatus === "idle") {
@@ -67,25 +58,25 @@ function Participants() {
 		};
 	}, [dispatch]);
 
-	console.log("giftEvent", giftEvent?.id);
 	return (
-		<main>
-			{giftEventsStatus === "succeeded" && giftEvent && (
-				<GridContainer
-					variant={"participant"}
-					title={giftEvent.name}
-					description={giftEvent.description}
-					eventId={id}
-				>
-					<ListGrid
+		<AuthGuard>
+			<main>
+				{giftEventsStatus === "succeeded" && giftEvent && (
+					<GridContainer
 						variant={"participant"}
-						items={participants}
-						eventId={giftEvent.id}
-					/>
-				</GridContainer>
-			)}
-			<button
-				className="flex
+						title={giftEvent.name}
+						description={giftEvent.description}
+						eventId={id}
+					>
+						<ListGrid
+							variant={"participant"}
+							items={participants}
+							eventId={giftEvent.id}
+						/>
+					</GridContainer>
+				)}
+				<button
+					className="flex
 							fixed
 							bottom-7
 							right-7
@@ -99,11 +90,12 @@ function Participants() {
 							hover:bg-[var(--primary-hover)]
 							text-[var(--primary-text)]
 							sm:hidden"
-				aria-label="Add Event"
-			>
-				+
-			</button>
-		</main>
+					aria-label="Add Event"
+				>
+					+
+				</button>
+			</main>
+		</AuthGuard>
 	);
 }
 
