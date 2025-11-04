@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "@/store/store";
-import { EventParticipant as PrismaParticipant } from "@prisma/client";
 import { Participant } from "@/types/participant";
 
 interface ParticipantInvite {
@@ -60,7 +59,6 @@ export const inviteParticipant = createAsyncThunk<
 >(
 	"participants/inviteParticipant",
 	async ({ eventId, email }, { rejectWithValue }) => {
-		// const invite = { eventId, email };
 		try {
 			const response = await fetch(
 				`/api/events/${eventId}/participants/invite/send`,
