@@ -4,18 +4,9 @@ import { prisma } from "@lib/prisma";
 import { Resend } from "resend";
 import crypto from "crypto";
 
+import { SuccessResponse, ErrorResponse } from "@/types/inviteParticipant";
+
 const resend = new Resend(process.env.AUTH_RESEND_KEY);
-
-interface SuccessResponse {
-	success: true;
-	message: string;
-}
-
-interface ErrorResponse {
-	success: false;
-	code: string;
-	message: string;
-}
 
 const successResponse = (message: string): SuccessResponse => ({
 	success: true,
