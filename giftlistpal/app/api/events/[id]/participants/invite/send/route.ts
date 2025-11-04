@@ -16,13 +16,12 @@ interface ErrorResponse {
 	code: string;
 	message: string;
 }
-type ApiResponse = SuccessResponse | ErrorResponse;
 
-const successResponse = (message: string): ApiResponse => ({
+const successResponse = (message: string): SuccessResponse => ({
 	success: true,
 	message,
 });
-const errorResponse = (code: string, message: string): ApiResponse => ({
+const errorResponse = (code: string, message: string): ErrorResponse => ({
 	success: false,
 	code,
 	message,
