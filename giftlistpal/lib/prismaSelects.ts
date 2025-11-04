@@ -1,5 +1,14 @@
 import { Prisma } from "@prisma/client";
 
+export const eventSelect = {
+	id: true,
+	name: true,
+	date: true,
+	description: true,
+	ownerId: true,
+	createdAt: true,
+} satisfies Prisma.EventSelect;
+
 export const participantSelect = {
 	isShopper: true,
 	isRecipient: true,

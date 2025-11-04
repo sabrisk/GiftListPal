@@ -1,18 +1,24 @@
 import React from "react";
 import Link from "next/link";
+import { Event } from "@/types/event";
+import { Participant } from "@/types/participant";
 
-type ListItemProps = {
-	id: number;
-	name: string;
-	variant: string;
-	eventId?: number;
-};
+type ListItemProps =
+	| ({
+			variant: "gift-event";
+	  } & Event)
+	| ({
+			variant: "participant";
+	  } & Participant);
 
-function ListItem({ id, name, variant, eventId }: ListItemProps) {
+function ListItem(props: ListItemProps) {
 	const linkUrl =
-		variant === "gift-event"
-			? `/events/${id}/participants`
-			: `/events/${eventId}/participants/${id}`;
+		props.variant === "gift-event"
+			? `/events/${props.id}/participants`
+			: `/events/${props.event.id}/participants/${props.event.id}`;
+
+	const name = props.variant === "gift-event" ? props.name : props.event.name;
+
 	return (
 		<Link href={linkUrl}>
 			<div

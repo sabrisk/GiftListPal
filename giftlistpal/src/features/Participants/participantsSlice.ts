@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "@/store/store";
+import { EventParticipant as PrismaParticipant } from "@prisma/client";
+import { Participant } from "@/types/participant";
 
-interface Participant {
+interface ParticipantInvite {
 	id: number;
 	email: string;
 }
@@ -37,23 +39,24 @@ interface InviteErrorResponse {
 
 type ApiInviteResponse = InviteSuccessResponse | InviteErrorResponse;
 
-export const getParticipants = createAsyncThunk<Participant[], number>(
-	"participants/getParticipants",
-	async (id, { rejectWithValue }) => {
-		try {
-			const response = await fetch(`/api/events/${id}/participants`);
-			if (!response.ok) throw new Error("Failed to fetch participants");
-			return (await response.json()) as Participant[];
-		} catch (err: any) {
-			return rejectWithValue(err.message);
-		}
+export const getParticipants = createAsyncThunk<
+	Participant[],
+	number,
+	{ rejectValue: string }
+>("participants/getParticipants", async (id, { rejectWithValue }) => {
+	try {
+		const response = await fetch(`/api/events/${id}/participants`);
+		if (!response.ok) throw new Error("Failed to fetch participants");
+		return (await response.json()) as Participant[];
+	} catch (err: any) {
+		return rejectWithValue(err.message);
 	}
-);
+});
 
 export const inviteParticipant = createAsyncThunk<
-	ApiInviteResponse, // return type
-	InvitePayload, // argument type
-	{ rejectValue: string } // reject type
+	ApiInviteResponse,
+	InvitePayload,
+	{ rejectValue: string }
 >(
 	"participants/inviteParticipant",
 	async ({ eventId, email }, { rejectWithValue }) => {
@@ -72,7 +75,6 @@ export const inviteParticipant = createAsyncThunk<
 			const data: ApiInviteResponse = await response.json();
 
 			if (!response.ok || !data.success) {
-				// Prefer backend message if available
 				const message = data.message || "Failed to send invite";
 				return rejectWithValue(message);
 			}

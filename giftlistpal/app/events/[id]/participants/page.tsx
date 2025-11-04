@@ -28,6 +28,9 @@ function Participants() {
 	const dispatch = useAppDispatch();
 	const params = useParams();
 	const id = params?.id ? Number(params.id) : undefined;
+	if (!id) {
+		return <div>No event id found.</div>;
+	}
 
 	const giftEventsStatus = useAppSelector(selectGiftEventsStatus);
 	const participantsStatus = useAppSelector(selectParticipantsStatus);
@@ -47,8 +50,7 @@ function Participants() {
 
 	useEffect(() => {
 		if (participantsStatus === "idle" && typeof id === "number") {
-			// @ts-ignore
-			dispatch(getParticipants(id)); // safe now
+			dispatch(getParticipants(id));
 		}
 	}, [participantsStatus, dispatch, id]);
 
@@ -71,7 +73,6 @@ function Participants() {
 						<ListGrid
 							variant={"participant"}
 							items={participants}
-							eventId={giftEvent.id}
 						/>
 					</GridContainer>
 				)}

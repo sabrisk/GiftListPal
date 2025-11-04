@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { Event as PrismaEvent } from "@prisma/client";
 
 export interface CreateEventRequest {
@@ -20,3 +21,9 @@ export interface ErrorResponse {
 
 export type EventsResponse = SuccessResponse<PrismaEvent[]>;
 export type EventResponse = SuccessResponse<PrismaEvent>;
+
+import { eventSelect } from "@lib/prismaSelects";
+
+export type Event = Prisma.EventGetPayload<{
+	select: typeof eventSelect;
+}>;

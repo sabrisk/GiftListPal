@@ -9,8 +9,6 @@ export async function GET(
 ) {
 	const { id } = await params;
 	const eventId = id ? Number(id) : undefined;
-	// console.log(eventId);
-	// console.log(`Hi there GET /api/events/${eventId}/participants/`);
 	const session = await auth();
 
 	if (!session?.user?.id) {
@@ -22,20 +20,12 @@ export async function GET(
 
 		const participants = await prisma.eventParticipant.findMany({
 			where: {
-				eventId, // only include join rows for this event
+				eventId,
 			},
 			select: participantSelect,
 		});
 
-		const flattenedParticipants = participants.map((p) => ({
-			id: p.user.id,
-			name: p.user.name,
-			isShopper: p.isShopper,
-			isRecipient: p.isRecipient,
-		}));
-
-		console.log("Retrieved participants:", flattenedParticipants);
-		return NextResponse.json(flattenedParticipants, { status: 200 });
+		return NextResponse.json(participants, { status: 200 });
 	} catch (err) {
 		console.error("Error getting participants:", err);
 		return NextResponse.json(

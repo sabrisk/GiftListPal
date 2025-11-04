@@ -1,41 +1,34 @@
 import React from "react";
 import ListItem from "@/components/ListItem";
-// import { GiftEvent } from "@/types";
+import { Event } from "@/types/event";
+import { Participant } from "@/types/participant";
 
-type Participant = {
-	id: number;
-	name: string;
-};
+type ListGridProps =
+	| { variant: "gift-event"; items: Event[] }
+	| { variant: "participant"; items: Participant[] };
 
-export interface GiftEvent {
-	id: number;
-	name: string;
-	date?: string;
-	description?: string;
-}
-
-type Variant = "participant" | "gift-event";
-
-type ListGridProps = {
-	variant: Variant;
-	items: Array<Participant | GiftEvent>;
-	eventId?: number;
-};
-
-function ListGrid({ items, variant, eventId }: ListGridProps) {
-	console.log({ items: { items } });
-	console.log({ eventid: { eventId } });
-
+function ListGrid({ variant, items }: ListGridProps) {
 	return (
 		<main className="grid gap-4 my-4 max-w-6xl mx-auto md:grid-cols-2 lg:grid-cols-3">
-			{items.map((item) => (
-				<ListItem
-					key={item.id}
-					{...item}
-					variant={variant}
-					eventId={eventId}
-				/>
-			))}
+			{items.map((item) => {
+				if (variant === "gift-event") {
+					const event = item as Event;
+					const key = `event-${event.id}`;
+					return (
+						<ListItem key={key} {...event} variant="gift-event" />
+					);
+				} else {
+					const participant = item as Participant;
+					const key = `participant-${participant.user.id}-${participant.event.id}`;
+					return (
+						<ListItem
+							key={key}
+							{...participant}
+							variant="participant"
+						/>
+					);
+				}
+			})}
 		</main>
 	);
 }
