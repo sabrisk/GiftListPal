@@ -25,8 +25,14 @@ export const getParticipants = createAsyncThunk<
 >("participants/getParticipants", async (id, { rejectWithValue }) => {
 	try {
 		const response = await fetch(`/api/events/${id}/participants`);
-		if (!response.ok) throw new Error("Failed to fetch participants");
-		return (await response.json()) as Participant[];
+		const responseData = await response.json();
+
+		if (!response.ok || !responseData.success) {
+			const message =
+				responseData.message || "Failed to retrieve participants";
+			return rejectWithValue(message);
+		}
+		return responseData.data;
 	} catch (err: any) {
 		return rejectWithValue(err.message);
 	}

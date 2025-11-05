@@ -1,7 +1,20 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@lib/prisma";
 import { auth } from "../../../../../auth";
+import { SuccessResponse, ErrorResponse } from "@/types/participant";
 import { participantSelect } from "@lib/prismaSelects";
+
+const successResponse = <T>(data: T, message: string): SuccessResponse<T> => ({
+	success: true,
+	data,
+	message,
+});
+
+const errorResponse = (code: string, message: string): ErrorResponse => ({
+	success: false,
+	code,
+	message,
+});
 
 export async function GET(
 	request: Request,
@@ -12,7 +25,10 @@ export async function GET(
 	const session = await auth();
 
 	if (!session?.user?.id) {
-		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+		return NextResponse.json(
+			errorResponse("UNAUTHORIZED", "Unauthorized"),
+			{ status: 401 }
+		);
 	}
 
 	try {
@@ -25,11 +41,17 @@ export async function GET(
 			select: participantSelect,
 		});
 
-		return NextResponse.json(participants, { status: 200 });
-	} catch (err) {
-		console.error("Error getting participants:", err);
 		return NextResponse.json(
-			{ error: "Database get failed" },
+			successResponse(
+				participants,
+				"Participants retreived successfully"
+			),
+			{ status: 200 }
+		);
+	} catch (error) {
+		console.error("Unhandled error in participants route:", error);
+		return NextResponse.json(
+			errorResponse("INTERNAL_ERROR", "Internal server error"),
 			{ status: 500 }
 		);
 	}
