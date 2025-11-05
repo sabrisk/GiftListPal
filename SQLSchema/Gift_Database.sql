@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS gift_database;
+DROP DATABASE IF EXISTS gifts_db;
 
-CREATE DATABASE gift_database;
+CREATE DATABASE gifts_db;
 
-\c gift_database
+\c gifts_db
 
 CREATE TABLE users (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -15,10 +15,10 @@ CREATE TABLE users (
 
 CREATE TABLE events (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    event_name VARCHAR(100) NOT NULL,
-    event_date DATE NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    date DATE NOT NULL,
+    description TEXT,
     owner_id INT REFERENCES users(id) ON DELETE CASCADE,
-    event_description TEXT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -36,17 +36,11 @@ CREATE TABLE gifts (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     item_name TEXT NOT NULL,
     link TEXT NOT NULL,
-    recipient_user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     event_id INT REFERENCES events(id) ON DELETE SET NULL DEFAULT NULL,
+    recipient_user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     added_by_user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     reserved_by_user_id INT REFERENCES users(id) ON DELETE SET NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_reserved_participant FOREIGN KEY (reserved_by_user_id, event_id)
-        REFERENCES event_user(user_id, event_id)
-        ON DELETE SET NULL,
-    CONSTRAINT fk_recipient_participant FOREIGN KEY (recipient_user_id, event_id)
-        REFERENCES event_user(user_id, event_id)
-        ON DELETE NO ACTION
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX idx_event_user_event_id ON event_user(event_id);
