@@ -56,13 +56,13 @@ export const postGiftEvent = createAsyncThunk<
 			body: JSON.stringify(newEvent),
 		});
 
-		const { data } = await response.json();
+		const responseData = await response.json();
 
-		if (!response.ok || !data.success) {
-			const message = data.message || "Failed to add event";
+		if (!response.ok || !responseData.success) {
+			const message = responseData.message || "Failed to add event";
 			return rejectWithValue(message);
 		}
-		return data;
+		return responseData.data;
 	} catch (err: any) {
 		if (err instanceof TypeError && err.message === "Failed to fetch") {
 			return rejectWithValue(
