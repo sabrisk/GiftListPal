@@ -6,7 +6,6 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useParams } from "next/navigation";
 
 import ListGrid from "@/components/ListGrid";
-import BackButton from "@/components/BackButton";
 import GridContainer from "@/components/GridContainer";
 
 import {
