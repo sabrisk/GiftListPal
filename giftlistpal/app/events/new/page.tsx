@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useAppDispatch } from "@/store/hooks";
-import { postGiftEvent } from "@/features/GiftEvents/GiftEventsSlice";
+import { postGiftEvent } from "@/features/GiftEvents/giftEventsSlice";
 import { useRouter } from "next/navigation";
 
 export default function AddEvent() {

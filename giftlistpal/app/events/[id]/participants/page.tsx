@@ -20,7 +20,7 @@ import {
 	getGiftEvents,
 	selectGiftEventsStatus,
 	selectGiftEventById,
-} from "@/features/GiftEvents/GiftEventsSlice";
+} from "@/features/GiftEvents/giftEventsSlice";
 
 import AuthGuard from "@/components/AuthGuard";
 

@@ -10,7 +10,7 @@ import {
 	getGiftEvents,
 	selectAllGiftEvents,
 	selectGiftEventsStatus,
-} from "@/features/GiftEvents/GiftEventsSlice";
+} from "@/features/GiftEvents/giftEventsSlice";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 

@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useAppSelector } from "@/store/hooks";
 import type { Session } from "next-auth";
-import { selectGiftEventById } from "@/features/GiftEvents/GiftEventsSlice";
+import { selectGiftEventById } from "@/features/GiftEvents/giftEventsSlice";
 
 import {
 	Dialog,
