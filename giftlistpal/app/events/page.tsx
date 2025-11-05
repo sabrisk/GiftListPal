@@ -38,13 +38,6 @@ function Events() {
 		}
 	}, [giftEventsStatus, userId, dispatch]);
 
-	console.log("session", session);
-	const anEvent = {
-		name: "Christmas 2025",
-		date: "12-25-2025",
-		description: "Whole family getting together for Christmas along",
-	};
-
 	return (
 		<main>
 			<GridContainer // title={"Participants"}
