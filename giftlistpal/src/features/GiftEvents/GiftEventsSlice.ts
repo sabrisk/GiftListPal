@@ -1,12 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "@/store/store";
 
-import { Event as PrismaEvent } from "@prisma/client";
-
-import { CreateEventRequest } from "@/types/event";
+import { Event, CreateEventRequest } from "@/types/event";
 
 interface EventsState {
-	list: PrismaEvent[];
+	list: Event[];
 	getGiftEventsStatus: "idle" | "loading" | "succeeded" | "failed";
 	postGiftEventStatus: "idle" | "loading" | "succeeded" | "failed";
 	postGiftEventError?: string | null;
@@ -20,7 +18,7 @@ const initialState: EventsState = {
 };
 
 export const getGiftEvents = createAsyncThunk<
-	PrismaEvent[],
+	Event[],
 	void,
 	{ rejectValue: string }
 >("giftEvents/getGiftEvents", async (_, { rejectWithValue }) => {
@@ -45,7 +43,7 @@ export const getGiftEvents = createAsyncThunk<
 });
 
 export const postGiftEvent = createAsyncThunk<
-	PrismaEvent,
+	Event,
 	CreateEventRequest,
 	{ rejectValue: string }
 >("giftEvents/postGiftEvent", async (newEvent, { rejectWithValue }) => {
