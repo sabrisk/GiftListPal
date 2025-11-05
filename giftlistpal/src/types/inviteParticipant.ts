@@ -1,10 +1,16 @@
-export interface SuccessResponse {
+export interface InviteSuccessResponse {
 	success: true;
 	message: string;
 }
 
-export interface ErrorResponse {
+export interface InviteErrorResponse {
 	success: false;
 	code: string;
 	message: string;
 }
+
+export interface InvitePayload {
+	eventId: number;
+	email: string;
+}
+type ApiInviteResponse = InviteSuccessResponse | InviteErrorResponse;

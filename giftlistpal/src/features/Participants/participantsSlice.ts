@@ -1,11 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "@/store/store";
-import { Participant } from "@/types/participant";
 
-interface ParticipantInvite {
-	id: number;
-	email: string;
-}
+import { Participant } from "@/types/participant";
+import { ApiInviteResponse, InvitePayload } from "@/types/inviteParticipant";
 
 interface ParticipantsState {
 	list: Participant[];
@@ -20,23 +17,6 @@ const initialState: ParticipantsState = {
 	getParticipantsError: null,
 	inviteParticipantStatus: "idle",
 };
-
-interface InvitePayload {
-	eventId: number;
-	email: string;
-}
-interface InviteSuccessResponse {
-	success: true;
-	message: string;
-}
-
-interface InviteErrorResponse {
-	success: false;
-	message: string;
-	code: string;
-}
-
-type ApiInviteResponse = InviteSuccessResponse | InviteErrorResponse;
 
 export const getParticipants = createAsyncThunk<
 	Participant[],
