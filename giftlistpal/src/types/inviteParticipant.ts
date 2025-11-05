@@ -13,4 +13,4 @@ export interface InvitePayload {
 	eventId: number;
 	email: string;
 }
-type ApiInviteResponse = InviteSuccessResponse | InviteErrorResponse;
+export type ApiInviteResponse = InviteSuccessResponse | InviteErrorResponse;
