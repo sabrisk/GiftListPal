@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-import { Event as PrismaEvent } from "@prisma/client";
+import { eventSelect } from "@lib/prismaSelects";
 
 export interface CreateEventRequest {
 	name: string;
@@ -18,11 +18,6 @@ export interface ErrorResponse {
 	code: string;
 	message: string;
 }
-
-export type EventsResponse = SuccessResponse<PrismaEvent[]>;
-export type EventResponse = SuccessResponse<PrismaEvent>;
-
-import { eventSelect } from "@lib/prismaSelects";
 
 export type Event = Prisma.EventGetPayload<{
 	select: typeof eventSelect;
