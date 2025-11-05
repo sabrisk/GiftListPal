@@ -15,7 +15,7 @@ function ListItem(props: ListItemProps) {
 	const linkUrl =
 		props.variant === "gift-event"
 			? `/events/${props.id}/participants`
-			: `/events/${props.event.id}/participants/${props.event.id}`;
+			: `/events/${props.event.id}/participants/${props.user.id}`;
 
 	const name = props.variant === "gift-event" ? props.name : props.event.name;
 
