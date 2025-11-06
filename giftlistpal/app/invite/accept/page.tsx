@@ -28,7 +28,7 @@ export default function AcceptInvitePage() {
 				);
 			} catch (err) {
 				console.error(err);
-				router.replace(`/invite/invalid?error=network`);
+				router.replace(`/invite/invalid?error=NETWORK`);
 			}
 		};
 
