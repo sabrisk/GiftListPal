@@ -42,14 +42,12 @@ function Events() {
 
 	return (
 		<main>
-			<>
-				<ItemGridHeader
-					title={"Events"}
-					description={"Select or add events below"}
-				></ItemGridHeader>
-				<AddItemLink variant={"gift-event"} />
-				<ListGrid variant={"gift-event"} items={giftEvents} />
-			</>
+			<ItemGridHeader
+				title={"Events"}
+				description={"Select or add events below"}
+			></ItemGridHeader>
+			<AddItemLink variant={"gift-event"} />
+			<ListGrid variant={"gift-event"} items={giftEvents} />
 
 			<AddItemLinkMobile variant={"gift-event"} />
 		</main>
