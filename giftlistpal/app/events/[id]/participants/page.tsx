@@ -5,8 +5,8 @@ import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useParams } from "next/navigation";
 
+import ItemGridHeader from "@/components/ItemGridHeader";
 import ListGrid from "@/components/ListGrid";
-import GridContainer from "@/components/GridContainer";
 
 import {
 	getParticipants,
@@ -22,6 +22,8 @@ import {
 } from "@/features/GiftEvents/giftEventsSlice";
 
 import AuthGuard from "@/components/AuthGuard";
+import AddItemLink from "@/components/AddItemLink";
+import AddItemLinkMobile from "@/components/AddItemLinkMobile";
 
 function Participants() {
 	const dispatch = useAppDispatch();
@@ -63,37 +65,20 @@ function Participants() {
 		<AuthGuard>
 			<main>
 				{giftEventsStatus === "succeeded" && giftEvent && (
-					<GridContainer
-						variant={"participant"}
-						title={giftEvent.name}
-						description={giftEvent.description}
-						eventId={id}
-					>
+					<>
+						<ItemGridHeader
+							title={giftEvent.name}
+							description={giftEvent.description}
+						></ItemGridHeader>
+						<AddItemLink variant={"participant"} eventId={id} />
 						<ListGrid
 							variant={"participant"}
 							items={participants}
 						/>
-					</GridContainer>
+					</>
 				)}
-				<button
-					className="flex
-							fixed
-							bottom-7
-							right-7
-							w-16
-							h-16
-							rounded-full
-							items-center
-							justify-center
-							text-4xl
-							bg-[var(--primary)]
-							hover:bg-[var(--primary-hover)]
-							text-[var(--primary-text)]
-							sm:hidden"
-					aria-label="Add Event"
-				>
-					+
-				</button>
+
+				<AddItemLinkMobile variant={"participant"} eventId={id} />
 			</main>
 		</AuthGuard>
 	);

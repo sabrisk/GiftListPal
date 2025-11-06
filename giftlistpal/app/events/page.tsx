@@ -3,9 +3,11 @@
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useSession } from "next-auth/react";
 
-import GridContainer from "@/components/GridContainer";
+import ItemGridHeader from "@/components/ItemGridHeader";
 import React, { useEffect } from "react";
 import ListGrid from "@/components/ListGrid";
+import AddItemLink from "@/components/AddItemLink";
+import AddItemLinkMobile from "@/components/AddItemLinkMobile";
 import {
 	getGiftEvents,
 	selectAllGiftEvents,
@@ -40,33 +42,16 @@ function Events() {
 
 	return (
 		<main>
-			<GridContainer // title={"Participants"}
-				title={"Events"}
-				description={"Select or add events below"}
-				variant={"gift-event"}
-			>
+			<>
+				<ItemGridHeader
+					title={"Events"}
+					description={"Select or add events below"}
+				></ItemGridHeader>
+				<AddItemLink variant={"gift-event"} />
 				<ListGrid variant={"gift-event"} items={giftEvents} />
-			</GridContainer>
+			</>
 
-			<button
-				className="flex
-							fixed
-							bottom-7
-							right-7
-							w-16
-							h-16
-							rounded-full
-							items-center
-							justify-center
-							text-4xl
-							bg-[var(--primary)]
-							hover:bg-[var(--primary-hover)]
-							text-[var(--primary-text)]
-							sm:hidden"
-				aria-label="Add	Event"
-			>
-				<Link href={`/events/new`}>+</Link>
-			</button>
+			<AddItemLinkMobile variant={"gift-event"} />
 		</main>
 	);
 }
