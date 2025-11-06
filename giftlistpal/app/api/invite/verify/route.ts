@@ -2,25 +2,41 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@lib/prisma";
 import { auth } from "../../../../auth";
+import { VerifySuccessResponse, VerifyErrorResponse } from "@/types/verify";
+
+const successResponse = (eventId: number): VerifySuccessResponse => ({
+	success: true,
+	data: { eventId },
+});
+const errorResponse = (code: string): VerifyErrorResponse => ({
+	success: false,
+	code,
+});
 
 export async function GET(req: Request) {
 	console.log("inside invite verify route");
-	debugger;
 	const url = new URL(req.url);
 	const token = url.searchParams.get("token");
 	console.log("token:", token);
-	// const session = await getServerSession(authOptions);
 	const session = await auth();
 	if (!session?.user?.id) {
-		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+		return NextResponse.json(errorResponse("UNAUTHORIZED"), {
+			status: 401,
+		});
 	}
-	console.log("session user:", session.user);
-	if (!token) return NextResponse.json({ valid: false });
+	if (!token)
+		return NextResponse.json(errorResponse("TOKEN_NOT_FOUND"), {
+			status: 400,
+		});
 
 	const invite = await prisma.eventInvite.findUnique({ where: { token } });
-	console.log("invite:", invite);
 	if (!invite || invite.used || invite.expiresAt < new Date()) {
-		return NextResponse.json({ valid: false });
+		return NextResponse.json(errorResponse("INVITE_EXPIRED"), {
+			status: 410,
+			headers: {
+				"Cache-Control": "no-store",
+			},
+		});
 	}
 
 	if (!session?.user?.email) {
@@ -31,7 +47,9 @@ export async function GET(req: Request) {
 
 	// Match the logged-in user’s email to invite
 	if (invite.email !== session.user.email) {
-		return NextResponse.json({ valid: false });
+		return NextResponse.json(errorResponse("INVALID_USER"), {
+			status: 403,
+		});
 	}
 
 	// Add them to the event (example)
@@ -50,5 +68,5 @@ export async function GET(req: Request) {
 		data: { used: true },
 	});
 
-	return NextResponse.json({ valid: true, eventId: invite.eventId });
+	return NextResponse.json(successResponse(invite.eventId));
 }

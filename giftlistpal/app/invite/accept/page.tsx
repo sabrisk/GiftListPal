@@ -13,13 +13,22 @@ export default function AcceptInvitePage() {
 		if (!token) return;
 
 		const verifyInvite = async () => {
-			const res = await fetch(`/api/invite/verify?token=${token}`);
-			const data = await res.json();
+			try {
+				const res = await fetch(`/api/invite/verify?token=${token}`);
+				const responseData = await res.json();
 
-			if (data.valid) {
-				router.replace(`/events/${data.eventId}/participants`);
-			} else {
-				router.replace("/invite/invalid");
+				if (!res.ok || !responseData.success) {
+					router.replace(
+						`/invite/invalid?error=${responseData.code}`
+					);
+					return;
+				}
+				router.replace(
+					`/events/${responseData.data.eventId}/participants`
+				);
+			} catch (err) {
+				console.error(err);
+				router.replace(`/invite/invalid?error=network`);
 			}
 		};
 
