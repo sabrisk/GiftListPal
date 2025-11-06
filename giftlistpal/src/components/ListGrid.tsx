@@ -9,7 +9,7 @@ type ListGridProps =
 
 function ListGrid({ variant, items }: ListGridProps) {
 	return (
-		<main className="grid gap-4 my-4 max-w-6xl mx-auto md:grid-cols-2 lg:grid-cols-3">
+		<main className="grid gap-4 my-4 max-w-6xl mx-auto sm:grid-cols-2 lg:grid-cols-3">
 			{items.map((item) => {
 				if (variant === "gift-event") {
 					const event = item as Event;
