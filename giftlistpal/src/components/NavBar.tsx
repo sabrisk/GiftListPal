@@ -3,10 +3,29 @@
 import { useSession, signOut } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 
+import {
+	getUser,
+	selectUserStatus,
+	selectUser,
+} from "@/features/User/userSlice";
+
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useEffect } from "react";
+
 export default function Navbar() {
 	const { data: session, status } = useSession();
+	const dispatch = useAppDispatch();
+	const userStatus = useAppSelector(selectUserStatus);
+	const user = useAppSelector(selectUser);
 	const router = useRouter();
 	const pathname = usePathname();
+	const userId = session?.user?.id;
+	useEffect(() => {
+		//userId to ensure user logged in
+		if (userStatus === "idle" && status === "authenticated" && userId) {
+			dispatch(getUser(userId));
+		}
+	}, [userStatus, status, userId, dispatch]);
 
 	const hideNavbar = pathname === "/signup"; // or "/signup"
 
@@ -34,7 +53,7 @@ export default function Navbar() {
 		<>
 			{!hideNavbar && (
 				<nav className="flex justify-end items-start mt-13 mb-15">
-					{session?.user?.name}
+					{user?.name}
 					<button
 						onClick={handleClick}
 						className="hidden md:block text-[#f5efe7] font-bold border-1 rounded border-[#f5efe7] px-3 py-1"

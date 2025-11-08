@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import giftEventsReducer from "@/features/GiftEvents/giftEventsSlice";
 import participantsReducer from "@/features/Participants/participantsSlice";
+import userReducer from "@/features/User/userSlice";
 // import spacecraftsReducer from "../features/spacecrafts/spacecraftsSlice";
 // import planetsReducer from "../features/planets/planetsSlice";
 
@@ -9,6 +10,7 @@ export const store = configureStore({
 	reducer: {
 		giftEvents: giftEventsReducer,
 		participants: participantsReducer,
+		user: userReducer,
 		// spacecrafts: spacecraftsReducer,
 		// planets: planetsReducer,
 	},

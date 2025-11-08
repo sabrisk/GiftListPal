@@ -15,3 +15,13 @@ export const participantSelect = {
 	user: { select: { id: true, name: true } },
 	event: { select: { id: true, name: true } },
 } satisfies Prisma.EventParticipantSelect;
+
+export const userSelect = {
+	id: true,
+	email: true,
+	createdAt: true,
+	emailVerified: true,
+	image: true,
+	updatedAt: true,
+	name: true,
+} satisfies Prisma.UserSelect;

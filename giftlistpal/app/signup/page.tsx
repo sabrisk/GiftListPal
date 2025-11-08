@@ -13,7 +13,11 @@ export default function SignUp() {
 
 	const resendAction = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const res = await signIn("resend", { ...user, redirect: false });
+		const res = await signIn("resend", {
+			...user,
+			redirect: true,
+			callbackUrl: "/setup-profile",
+		});
 		console.log(res);
 	};
 
