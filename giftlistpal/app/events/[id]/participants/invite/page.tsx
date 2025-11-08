@@ -30,54 +30,34 @@ interface Invite {
 	type: string;
 }
 
-const validate = (values: Invite, session: Session | null) => {
-	const errors: Partial<Invite> = {};
-	if (!values.email) {
-		errors.email = "Required";
-	} else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-		errors.email = "Invalid email address";
-	} else if (values.email === session?.user?.email) {
-		errors.email = "Error: You cannot invite yourself";
-	}
-	if (!values.type) {
-		errors.type = "Required";
-	}
-	return errors;
-};
-
 export default function Invite() {
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 	const params = useParams();
 	const { data: session, status } = useSession();
+
 	const id = params?.id ? Number(params.id) : undefined;
-	if (!id) {
-		return null;
-	}
-	const giftEvent = useAppSelector((state) => selectGiftEventById(state, id));
+	const giftEvent = useAppSelector((state) =>
+		id ? selectGiftEventById(state, id) : null
+	);
 
 	const [inviteSentMessage, setInviteSentMessage] = useState("");
 	const [errorDialogOpen, setErrorDialogOpen] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
 
-	if (!id) {
-		return <div>Invalid event ID</div>;
-	}
-
 	useEffect(() => {
 		if (!giftEvent) {
 			router.replace("/events");
+			return;
 		}
-		return;
 	}, [giftEvent, router]);
-
-	if (!giftEvent) {
-		return null;
-	}
 
 	const handleSubmit = async (values: Invite) => {
 		try {
 			setInviteSentMessage("");
+			if (!id) {
+				return;
+			}
 			const result = await dispatch(
 				inviteParticipant({ ...values, eventId: id })
 			).unwrap();
@@ -89,6 +69,23 @@ export default function Invite() {
 		}
 	};
 
+	const validate = (values: Invite, session: Session | null) => {
+		const errors: Partial<Invite> = {};
+		if (!values.email) {
+			errors.email = "Required";
+		} else if (
+			!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+		) {
+			errors.email = "Invalid email address";
+		} else if (values.email === session?.user?.email) {
+			errors.email = "Error: You cannot invite yourself";
+		}
+		if (!values.type) {
+			errors.type = "Required";
+		}
+		return errors;
+	};
+
 	const formik = useFormik({
 		initialValues: {
 			email: "",
@@ -97,6 +94,11 @@ export default function Invite() {
 		validate: (values) => validate(values, session),
 		onSubmit: handleSubmit,
 	});
+
+	if (!giftEvent) {
+		return null;
+	}
+
 	return (
 		<AuthGuard>
 			<div className="p-3">
