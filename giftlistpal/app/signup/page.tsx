@@ -42,7 +42,9 @@ export default function SignUp() {
 			<div className="flex flex-col gap-8 items-center max-w-md mx-auto sm:p-12 rounded-md  sm:bg-gray-700  sm:border-slate-600 sm:border-1 mt-10 mb-10">
 				<h1 className="text-3xl  font-bold">GiftListPal</h1>
 				<h2 className="text-2xl ">Welcome</h2>
-				<h1 className=" ">Sign in to continue to the Gift Dashboard</h1>
+				<h1 className=" ">
+					Sign in to continue to the Event Dashboard
+				</h1>
 				<form
 					onSubmit={resendAction}
 					className="flex flex-col gap-4 max-w-md w-full"
