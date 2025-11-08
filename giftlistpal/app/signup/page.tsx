@@ -3,29 +3,45 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { useFormik } from "formik";
+
+interface SignUp {
+	email: string;
+}
+
+const validate = (values: SignUp) => {
+	const errors: Partial<SignUp> = {};
+	if (!values.email) {
+		errors.email = "*Required";
+	} else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+		errors.email = "Invalid email address";
+	}
+	return errors;
+};
 
 export default function SignUp() {
 	const router = useRouter();
 	const { data: session, status } = useSession();
-	const [user, setUser] = useState({
-		email: "",
+
+	const handleSubmit = async (values: SignUp) => {
+		try {
+			await signIn("resend", {
+				...values,
+				redirect: true,
+				callbackUrl: "/setup-profile",
+			});
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	const formik = useFormik({
+		initialValues: {
+			email: "",
+		},
+		validate: validate,
+		onSubmit: handleSubmit,
 	});
-
-	const resendAction = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		const res = await signIn("resend", {
-			...user,
-			redirect: true,
-			callbackUrl: "/setup-profile",
-		});
-		console.log(res);
-	};
-
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = e.target;
-		console.log(name, value);
-		setUser((prev) => ({ ...prev, [name]: value }));
-	};
 
 	useEffect(() => {
 		document.title = `Sign in | GiftListPal`;
@@ -46,21 +62,25 @@ export default function SignUp() {
 					Sign in to continue to the Event Dashboard
 				</h1>
 				<form
-					onSubmit={resendAction}
+					onSubmit={formik.handleSubmit}
 					className="flex flex-col gap-4 max-w-md w-full"
 				>
 					<label className="flex flex-col">
 						<input
-							onChange={handleChange}
+							onChange={formik.handleChange}
+							id="email"
 							type="email"
 							name="email"
 							className="border rounded pl-6 pr-3 py-3 text-lg text-white"
-							required
 							autoComplete="email"
-							value={user.email}
+							value={formik.values.email}
+							onBlur={formik.handleBlur}
 							placeholder="Email address*"
 						/>
 					</label>
+					{formik.touched.email && formik.errors.email ? (
+						<div className="">{formik.errors.email}</div>
+					) : null}
 					<button
 						type="submit"
 						className="mt-4 bg-[#F5EFE7] hover:bg-[#beb7af] text-black font-semibold py-2 rounded"
