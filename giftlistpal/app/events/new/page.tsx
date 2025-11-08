@@ -12,20 +12,6 @@ interface NewEvent {
 	description: string;
 }
 
-const validate = (values: NewEvent) => {
-	const errors: Partial<NewEvent> = {};
-	if (!values.name?.trim()) {
-		errors.name = "*Required";
-	}
-	if (!values.date) {
-		errors.date = "*Required";
-	}
-	if (!values.description?.trim()) {
-		errors.description = "*Required";
-	}
-	return errors;
-};
-
 export default function AddEvent() {
 	const dispatch = useAppDispatch();
 	const router = useRouter();
@@ -37,6 +23,20 @@ export default function AddEvent() {
 		} catch (err) {
 			console.error(err);
 		}
+	};
+
+	const validate = (values: NewEvent) => {
+		const errors: Partial<NewEvent> = {};
+		if (!values.name?.trim()) {
+			errors.name = "*Required";
+		}
+		if (!values.date) {
+			errors.date = "*Required";
+		}
+		if (!values.description?.trim()) {
+			errors.description = "*Required";
+		}
+		return errors;
 	};
 
 	const formik = useFormik({
