@@ -75,7 +75,7 @@ export default function AddEvent() {
 						/>
 					</label>
 					{formik.touched.name && formik.errors.name ? (
-						<div className="">{formik.errors.name}</div>
+						<div className="text-red-500">{formik.errors.name}</div>
 					) : null}
 					<label className="flex flex-col">
 						<span className="mb-1 font-medium">Date</span>
@@ -91,7 +91,7 @@ export default function AddEvent() {
 						/>
 					</label>
 					{formik.touched.date && formik.errors.date ? (
-						<div className="">{formik.errors.date}</div>
+						<div className="text-red-500">{formik.errors.date}</div>
 					) : null}
 					<label className="flex flex-col">
 						<span className="mb-1 font-medium">Description</span>
@@ -106,7 +106,9 @@ export default function AddEvent() {
 						/>
 					</label>
 					{formik.touched.description && formik.errors.description ? (
-						<div className="">{formik.errors.description}</div>
+						<div className="text-red-500">
+							{formik.errors.description}
+						</div>
 					) : null}
 					<button
 						type="submit"
