@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@lib/prisma";
 import { Resend } from "resend";
 import crypto from "crypto";
+import { auth } from "../../../../../../../auth";
 
 import {
 	InviteSuccessResponse,
@@ -23,7 +24,19 @@ const errorResponse = (code: string, message: string): InviteErrorResponse => ({
 
 export async function POST(req: Request): Promise<NextResponse> {
 	try {
+		const session = await auth();
 		const { eventId, email } = await req.json();
+		const token = crypto.randomBytes(32).toString("hex");
+		const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24); // expires in 24 hours
+
+		if (!session?.user?.id) {
+			return NextResponse.json(
+				errorResponse("UNAUTHORIZED", "Unauthorized"),
+				{
+					status: 401,
+				}
+			);
+		}
 
 		if (!eventId || !email) {
 			return NextResponse.json(
@@ -31,9 +44,6 @@ export async function POST(req: Request): Promise<NextResponse> {
 				{ status: 400 }
 			);
 		}
-
-		const token = crypto.randomBytes(32).toString("hex");
-		const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24); // expires in 24 hours
 
 		const dbResult = await prisma.$transaction(async (tx) => {
 			const participant = await tx.eventParticipant.findFirst({
