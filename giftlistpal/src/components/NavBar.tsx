@@ -52,8 +52,15 @@ export default function Navbar() {
 	return (
 		<>
 			{!hideNavbar && (
-				<nav className="flex justify-end items-start mt-13 mb-15">
-					{user?.name}
+				<nav className="flex items-center justify-end  mt-12 mb-14">
+					<div className="py-1 mr-10  cursor-pointer ">
+						<span className=" text-xl pb-1 border-b border-b-transparent hover:border-b-white">
+							{user?.name}
+						</span>
+						<span className="inline-block my-auto text-sm ml-2">
+							{"▼"}
+						</span>
+					</div>
 					<button
 						onClick={handleClick}
 						className="hidden md:block text-[#f5efe7] font-bold border-1 rounded border-[#f5efe7] px-3 py-1"
