@@ -14,14 +14,14 @@ export default function RootLayout({
 	return (
 		<html className={"dark"} lang="en">
 			<SessionProvider>
-				<body className="">
-					<main className="max-w-6xl min-h-screen mx-auto px-4 sm:px-6 md:px-8">
-						<Provider store={store}>
+				<Provider store={store}>
+					<body className="">
+						<main className="max-w-6xl min-h-screen mx-auto px-4 sm:px-6 md:px-8">
 							<NavBar />
 							{children}
-						</Provider>
-					</main>
-				</body>
+						</main>
+					</body>
+				</Provider>
 			</SessionProvider>
 		</html>
 	);
