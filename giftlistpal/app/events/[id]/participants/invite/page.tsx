@@ -24,6 +24,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import AuthGuard from "@/components/AuthGuard";
+import { toast } from "sonner";
 
 interface Invite {
 	email: string;
@@ -41,7 +42,6 @@ export default function Invite() {
 		id ? selectGiftEventById(state, id) : null
 	);
 
-	const [inviteSentMessage, setInviteSentMessage] = useState("");
 	const [errorDialogOpen, setErrorDialogOpen] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
 
@@ -54,14 +54,13 @@ export default function Invite() {
 
 	const handleSubmit = async (values: Invite) => {
 		try {
-			setInviteSentMessage("");
 			if (!id) {
 				return;
 			}
 			const result = await dispatch(
 				inviteParticipant({ ...values, eventId: id })
 			).unwrap();
-			setInviteSentMessage(result.message);
+			toast.success(result.message);
 			router.push(`/events/${id}/participants`);
 		} catch (err: any) {
 			setErrorMessage(err || "Failed to send invite. Please try again.");
@@ -153,11 +152,11 @@ export default function Invite() {
 					{formik.touched.type && formik.errors.type ? (
 						<div>{formik.errors.type}</div>
 					) : null}
-					{inviteSentMessage && (
+					{/* {inviteSentMessage && (
 						<p className="text-green-500 font-medium">
 							{inviteSentMessage}
 						</p>
-					)}
+					)} */}
 					<button
 						type="submit"
 						className="mt-4 bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-black font-semibold py-2 rounded"
