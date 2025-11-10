@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Event } from "@/types/event";
 import { Participant } from "@/types/participant";
 
-type ListItemProps =
+type ItemProps =
 	| ({
 			variant: "gift-event";
 	  } & Event)
@@ -11,7 +11,7 @@ type ListItemProps =
 			variant: "participant";
 	  } & Participant);
 
-function ListItem(props: ListItemProps) {
+function Item(props: ItemProps) {
 	const linkUrl =
 		props.variant === "gift-event"
 			? `/events/${props.id}/participants`
@@ -48,4 +48,4 @@ function ListItem(props: ListItemProps) {
 	);
 }
 
-export default ListItem;
+export default Item;

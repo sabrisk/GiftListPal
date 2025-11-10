@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useParams } from "next/navigation";
 
 import ItemGridHeader from "@/components/ItemGridHeader";
-import ListGrid from "@/components/ListGrid";
+import ItemGrid from "@/components/ItemGrid";
 
 import {
 	getParticipants,
@@ -73,7 +73,7 @@ function Participants() {
 							description={giftEvent.description}
 						></ItemGridHeader>
 						<AddItemLink variant={"participant"} eventId={eid} />
-						<ListGrid
+						<ItemGrid
 							variant={"participant"}
 							items={participants}
 						/>

@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 
 import ItemGridHeader from "@/components/ItemGridHeader";
 import React, { useEffect } from "react";
-import ListGrid from "@/components/ListGrid";
+import ItemGrid from "@/components/ItemGrid";
 import AddItemLink from "@/components/AddItemLink";
 import AddItemLinkMobile from "@/components/AddItemLinkMobile";
 import {
@@ -60,7 +60,7 @@ function Events() {
 					description={"Select or add events below"}
 				></ItemGridHeader>
 				<AddItemLink variant={"gift-event"} />
-				<ListGrid variant={"gift-event"} items={giftEvents} />
+				<ItemGrid variant={"gift-event"} items={giftEvents} />
 
 				<AddItemLinkMobile variant={"gift-event"} />
 			</main>
