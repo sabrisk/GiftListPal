@@ -55,11 +55,9 @@ export default function SetupProfile() {
 	const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		try {
-			if (!updatedUser.id || !updatedUser.name.trim()) return;
-			const result = await dispatch(patchUser(updatedUser)).unwrap();
-			// if (result.name) {
-			// 	router.push("/events");
-			// }
+			if (!updatedUser.uid || !updatedUser.name.trim()) return;
+
+			await dispatch(patchUser(updatedUser)).unwrap();
 		} catch (err) {
 			console.log(err);
 		}
