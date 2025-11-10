@@ -17,17 +17,17 @@ export default function SetupProfile() {
 	// const userId = session?.user?.id;
 
 	const [updatedUser, setUpdatedUser] = useState<{
-		id: string; // optional
+		uid: string; // optional
 		name: string;
 	}>({
-		id: "",
+		uid: "",
 		name: "",
 	});
 
 	useEffect(() => {
 		const user = session?.user;
 		if (user?.id) {
-			setUpdatedUser((prev) => ({ ...prev, id: user.id! }));
+			setUpdatedUser((prev) => ({ ...prev, uid: user.id! }));
 		}
 		if (user?.name) {
 			setUpdatedUser((prev) => ({ ...prev, name: user.name! }));

@@ -18,10 +18,10 @@ const errorResponse = (code: string, message: string): ErrorResponse => ({
 
 export async function GET(
 	request: Request,
-	{ params }: { params: { id: string } }
+	{ params }: { params: { eid: string } }
 ) {
-	const { id } = await params;
-	const eventId = id ? Number(id) : undefined;
+	const { eid } = await params;
+	const eventId = eid ? Number(eid) : undefined;
 	const session = await auth();
 
 	if (!session?.user?.id) {

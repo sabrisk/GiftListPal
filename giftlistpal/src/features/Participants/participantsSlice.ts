@@ -22,9 +22,9 @@ export const getParticipants = createAsyncThunk<
 	Participant[],
 	number,
 	{ rejectValue: string }
->("participants/getParticipants", async (id, { rejectWithValue }) => {
+>("participants/getParticipants", async (eventId, { rejectWithValue }) => {
 	try {
-		const response = await fetch(`/api/events/${id}/participants`);
+		const response = await fetch(`/api/events/${eventId}/participants`);
 		const responseData = await response.json();
 
 		if (!response.ok || !responseData.success) {

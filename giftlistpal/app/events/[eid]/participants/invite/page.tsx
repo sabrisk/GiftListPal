@@ -37,9 +37,9 @@ export default function Invite() {
 	const params = useParams();
 	const { data: session, status } = useSession();
 
-	const id = params?.id ? Number(params.id) : undefined;
+	const eid = params?.eid ? Number(params.eid) : undefined;
 	const giftEvent = useAppSelector((state) =>
-		id ? selectGiftEventById(state, id) : null
+		eid ? selectGiftEventById(state, eid) : null
 	);
 
 	const [errorDialogOpen, setErrorDialogOpen] = useState(false);
@@ -54,14 +54,14 @@ export default function Invite() {
 
 	const handleSubmit = async (values: Invite) => {
 		try {
-			if (!id) {
+			if (!eid) {
 				return;
 			}
 			const result = await dispatch(
-				inviteParticipant({ ...values, eventId: id })
+				inviteParticipant({ ...values, eventId: eid })
 			).unwrap();
 			toast.success(result.message);
-			router.push(`/events/${id}/participants`);
+			router.push(`/events/${eid}/participants`);
 		} catch (err: any) {
 			setErrorMessage(err || "Failed to send invite. Please try again.");
 			setErrorDialogOpen(true);

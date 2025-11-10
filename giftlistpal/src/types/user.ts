@@ -14,7 +14,7 @@ export interface ErrorResponse {
 }
 
 export interface patchUserRequest {
-	id: string;
+	uid: string;
 	name?: string;
 }
 

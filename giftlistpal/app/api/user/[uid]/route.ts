@@ -19,10 +19,9 @@ const errorResponse = (code: string, message: string): ErrorResponse => ({
 
 export async function GET(
 	request: Request,
-	{ params }: { params: { id: string } }
+	{ params }: { params: { uid: string } }
 ) {
-	const { id } = await params;
-	const userId = id;
+	const { uid } = await params;
 	const session = await auth();
 
 	if (!session?.user?.id) {
@@ -37,7 +36,7 @@ export async function GET(
 
 		const user = await prisma.user.findUnique({
 			where: {
-				id: userId,
+				id: uid,
 			},
 			select: userSelect,
 		});
@@ -57,19 +56,19 @@ export async function GET(
 
 export async function PATCH(
 	request: Request,
-	{ params }: { params: { id: string } }
+	{ params }: { params: { uid: string } }
 ) {
 	try {
-		const { id, name }: patchUserRequest = await request.json();
+		const { uid, name }: patchUserRequest = await request.json();
 
-		if (!id || !name) {
+		if (!uid || !name) {
 			return NextResponse.json(
-				errorResponse("BAD_REQUEST", "Missing id or name"),
+				errorResponse("BAD_REQUEST", "Missing userId or name"),
 				{ status: 400 }
 			);
 		}
 		const updatedUser = await prisma.user.update({
-			where: { id },
+			where: { id: uid },
 			data: { name },
 			select: userSelect,
 		});

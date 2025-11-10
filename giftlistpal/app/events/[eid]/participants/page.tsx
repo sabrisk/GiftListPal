@@ -28,15 +28,17 @@ import AddItemLinkMobile from "@/components/AddItemLinkMobile";
 function Participants() {
 	const dispatch = useAppDispatch();
 	const params = useParams();
-	const id = params?.id ? Number(params.id) : undefined;
-	if (!id) {
+	const eid = params?.eid ? Number(params.eid) : undefined;
+	if (!eid) {
 		return <div>No event id found.</div>;
 	}
 
 	const giftEventsStatus = useAppSelector(selectGiftEventsStatus);
 	const participantsStatus = useAppSelector(selectParticipantsStatus);
 
-	const giftEvent = useAppSelector((state) => selectGiftEventById(state, id));
+	const giftEvent = useAppSelector((state) =>
+		selectGiftEventById(state, eid)
+	);
 	const participants = useAppSelector(selectAllParticipants);
 
 	useEffect(() => {
@@ -50,10 +52,10 @@ function Participants() {
 	}, [giftEventsStatus, dispatch]);
 
 	useEffect(() => {
-		if (participantsStatus === "idle" && typeof id === "number") {
-			dispatch(getParticipants(id));
+		if (participantsStatus === "idle" && typeof eid === "number") {
+			dispatch(getParticipants(eid));
 		}
-	}, [participantsStatus, dispatch, id]);
+	}, [participantsStatus, dispatch, eid]);
 
 	useEffect(() => {
 		return () => {
@@ -70,7 +72,7 @@ function Participants() {
 							title={giftEvent.name}
 							description={giftEvent.description}
 						></ItemGridHeader>
-						<AddItemLink variant={"participant"} eventId={id} />
+						<AddItemLink variant={"participant"} eventId={eid} />
 						<ListGrid
 							variant={"participant"}
 							items={participants}
@@ -78,7 +80,7 @@ function Participants() {
 					</>
 				)}
 
-				<AddItemLinkMobile variant={"participant"} eventId={id} />
+				<AddItemLinkMobile variant={"participant"} eventId={eid} />
 			</main>
 		</AuthGuard>
 	);

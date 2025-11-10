@@ -48,7 +48,7 @@ export const patchUser = createAsyncThunk<
 	{ rejectValue: string }
 >("user/patchUser", async (updatedUser, { rejectWithValue }) => {
 	try {
-		const response = await fetch(`/api/user/${updatedUser.id}`, {
+		const response = await fetch(`/api/user/${updatedUser.uid}`, {
 			method: "PATCH",
 			headers: {
 				"Content-Type": "application/json",
