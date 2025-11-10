@@ -95,7 +95,7 @@ export default function SignUp() {
 	);
 
 	const loading = <div>Loading...</div>;
-	if (status === "loading") {
+	if (status === "loading" || status === "authenticated") {
 		return loading;
 	}
 
