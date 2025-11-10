@@ -122,7 +122,7 @@ export default function Invite() {
 						/>
 					</label>
 					{formik.touched.email && formik.errors.email ? (
-						<div className="text-red-500 font-">
+						<div className="text-red-500">
 							{formik.errors.email}
 						</div>
 					) : null}
@@ -150,7 +150,7 @@ export default function Invite() {
 						</div>
 					</RadioGroup>
 					{formik.touched.type && formik.errors.type ? (
-						<div>{formik.errors.type}</div>
+						<div className="text-red-500">{formik.errors.type}</div>
 					) : null}
 					{/* {inviteSentMessage && (
 						<p className="text-green-500 font-medium">
