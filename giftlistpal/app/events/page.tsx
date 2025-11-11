@@ -13,20 +13,16 @@ import {
 	selectAllGiftEvents,
 	selectGiftEventsStatus,
 } from "@/features/GiftEvents/giftEventsSlice";
-import { useRouter } from "next/navigation";
 import AuthGuard from "@/components/AuthGuard";
-import { selectUser } from "@/features/User/userSlice";
 
 function Events() {
 	useEffect(() => {
 		document.title = `Events | GiftListPal`;
 	}, []);
-	const { data: session, status } = useSession();
-	const router = useRouter();
+	const { data: session } = useSession();
 	const userId = session?.user?.id;
 	const dispatch = useAppDispatch();
 
-	const user = useAppSelector(selectUser);
 	const giftEvents = useAppSelector(selectAllGiftEvents);
 	const giftEventsStatus = useAppSelector(selectGiftEventsStatus);
 
