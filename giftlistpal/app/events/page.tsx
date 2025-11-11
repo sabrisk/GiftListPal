@@ -1,10 +1,11 @@
 "use client";
 
+import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useSession } from "next-auth/react";
+import AuthGuard from "@/components/AuthGuard";
 
 import ItemGridHeader from "@/components/ItemGridHeader";
-import React, { useEffect } from "react";
 import ItemGrid from "@/components/ItemGrid";
 import AddItemLink from "@/components/AddItemLink";
 import AddItemLinkMobile from "@/components/AddItemLinkMobile";
@@ -13,7 +14,6 @@ import {
 	selectAllGiftEvents,
 	selectGiftEventsStatus,
 } from "@/features/GiftEvents/giftEventsSlice";
-import AuthGuard from "@/components/AuthGuard";
 
 function Events() {
 	useEffect(() => {
