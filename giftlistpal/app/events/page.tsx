@@ -13,10 +13,9 @@ import {
 	selectAllGiftEvents,
 	selectGiftEventsStatus,
 } from "@/features/GiftEvents/giftEventsSlice";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import AuthGuard from "@/components/AuthGuard";
-import { selectUser, selectUserStatus } from "@/features/User/userSlice";
+import { selectUser } from "@/features/User/userSlice";
 
 function Events() {
 	useEffect(() => {
@@ -28,22 +27,8 @@ function Events() {
 	const dispatch = useAppDispatch();
 
 	const user = useAppSelector(selectUser);
-	const userStatus = useAppSelector(selectUserStatus);
 	const giftEvents = useAppSelector(selectAllGiftEvents);
 	const giftEventsStatus = useAppSelector(selectGiftEventsStatus);
-
-	// useEffect(() => {
-	// 	if (status === "unauthenticated") {
-	// 		router.replace("/signup"); // redirect to login/signup page
-	// 	}
-	// }, [status, router]);
-
-	// useEffect(() => {
-	// 	if (userStatus === "succeeded" && !user?.name) {
-	// 		// debugger;
-	// 		router.push("/setup-profile");
-	// 	}
-	// }, [user, router]);
 
 	useEffect(() => {
 		//userId to ensure user logged in
