@@ -28,10 +28,12 @@ export async function POST(req: Request): Promise<NextResponse> {
 		const { eventId, email } = await req.json();
 		const token = crypto.randomBytes(32).toString("hex");
 		const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24); // expires in 24 hours
-
 		if (!session?.user?.id) {
 			return NextResponse.json(
-				errorResponse("UNAUTHORIZED", "Unauthorized"),
+				errorResponse(
+					"UNAUTHORIZED",
+					"The user's session has expired, please login"
+				),
 				{
 					status: 401,
 				}
@@ -93,6 +95,7 @@ export async function POST(req: Request): Promise<NextResponse> {
 		const inviteUrl = `${
 			process.env.NEXTAUTH_URL
 		}/invite/accept?token=${encodeURIComponent(token)}`;
+
 		try {
 			await resend.emails.send({
 				from: "Invite@mail.giftlistpal.com",

@@ -1,6 +1,6 @@
 "use client";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useFormik } from "formik";
@@ -11,14 +11,15 @@ interface SignUp {
 
 export default function SignUp() {
 	const router = useRouter();
+	const params = useSearchParams();
 	const { data: session, status } = useSession();
 
 	const handleSubmit = async (values: SignUp) => {
 		try {
 			await signIn("resend", {
-				...values,
+				email: values.email,
 				redirect: true,
-				callbackUrl: "/setup-profile",
+				callbackUrl: params.get("callbackUrl") || "/setup-profile",
 			});
 		} catch (err) {
 			console.error(err);

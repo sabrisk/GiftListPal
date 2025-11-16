@@ -18,9 +18,15 @@ export default function AcceptInvitePage() {
 				const responseData = await res.json();
 
 				if (!res.ok || !responseData.success) {
-					router.replace(
-						`/invite/invalid?error=${responseData.code}`
-					);
+					if (responseData.token) {
+						router.replace(
+							`/signup/?callbackUrl=/invite/accept?token=${responseData.token}`
+						);
+					} else {
+						router.replace(
+							`/invite/invalid?error=${responseData.code}`
+						);
+					}
 					return;
 				}
 				router.replace(

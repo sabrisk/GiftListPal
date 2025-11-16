@@ -8,9 +8,13 @@ const successResponse = (eventId: number): VerifySuccessResponse => ({
 	success: true,
 	data: { eventId },
 });
-const errorResponse = (code: string): VerifyErrorResponse => ({
+const errorResponse = (
+	code: string,
+	token?: string | null
+): VerifyErrorResponse => ({
 	success: false,
 	code,
+	token,
 });
 
 export async function GET(req: Request) {
@@ -19,11 +23,13 @@ export async function GET(req: Request) {
 	const token = url.searchParams.get("token");
 	console.log("token:", token);
 	const session = await auth();
+
 	if (!session?.user?.id) {
-		return NextResponse.json(errorResponse("UNAUTHORIZED"), {
+		return NextResponse.json(errorResponse("UNAUTHORIZED", token), {
 			status: 401,
 		});
 	}
+
 	if (!token)
 		return NextResponse.json(errorResponse("TOKEN_NOT_FOUND"), {
 			status: 400,
@@ -37,12 +43,6 @@ export async function GET(req: Request) {
 				"Cache-Control": "no-store",
 			},
 		});
-	}
-
-	if (!session?.user?.email) {
-		// redirect them to sign in (or auto-trigger NextAuth email signin)
-		const signInUrl = `/api/auth/signin/email?callbackUrl=/invite/accept?token=${token}`;
-		return NextResponse.redirect(signInUrl);
 	}
 
 	// Match the logged-in user’s email to invite

@@ -6,4 +6,5 @@ export interface VerifySuccessResponse {
 export interface VerifyErrorResponse {
 	success: false;
 	code: string;
+	token?: string | null;
 }
