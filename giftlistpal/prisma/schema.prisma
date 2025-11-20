@@ -136,15 +136,15 @@ model EventInvite {
 
 model Gift {
 	id					Int			@id @default(autoincrement())
-	itemName			String		@map("item_name")
-	link				String
-	eventId				Int?		@map("event_id")
+	name				String		@db.VarChar(150)
+	link				String?
+	eventId				Int			@map("event_id")
 	recipientUserId		String		@map("recipient_user_id")
 	addedByUserId		String		@map("added_by_user_id")
 	reservedByUserId	String?		@map("reserved_by_user_id")
 	createdAt			DateTime	@default(now()) @db.Timestamptz(6) @map("created_at")
 
-	event				Event?		@relation(fields: [eventId], references: [id], onUpdate: NoAction)
+	event				Event		@relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 	addedBy				User		@relation("GiftsAddedByUser", fields: [addedByUserId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 	recipient			User		@relation("GiftsRecipientUser", fields: [recipientUserId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 	reservedBy			User?		@relation("GiftsReservedByUser", fields: [reservedByUserId], references: [id], onUpdate: NoAction)

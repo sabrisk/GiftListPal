@@ -32,7 +32,7 @@ export async function GET(
 	}
 
 	try {
-		console.log("Fetching participants for event:", session.user.id);
+		console.log("Fetching participants for event:", eventId);
 
 		const participants = await prisma.eventParticipant.findMany({
 			where: {

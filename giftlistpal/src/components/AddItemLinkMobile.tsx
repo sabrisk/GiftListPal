@@ -1,18 +1,21 @@
+import { getLink } from "@lib/utility";
 import Link from "next/link";
 import React from "react";
 
-type Variant = "participant" | "gift-event";
+type Variant = "participant" | "gift-event" | "gift";
 
 interface AddItemLinkMobileProps {
 	variant: Variant;
 	eventId?: number;
+	userId?: string;
 }
 
-const AddItemLinkMobile = ({ variant, eventId }: AddItemLinkMobileProps) => {
-	const linkUrl =
-		variant === "participant"
-			? `/events/${eventId}/participants/invite`
-			: `/events/new`;
+const AddItemLinkMobile = ({
+	variant,
+	eventId,
+	userId,
+}: AddItemLinkMobileProps) => {
+	const linkUrl = getLink(variant, eventId, userId);
 	return (
 		<Link
 			href={linkUrl}

@@ -25,3 +25,14 @@ export const userSelect = {
 	updatedAt: true,
 	name: true,
 } satisfies Prisma.UserSelect;
+
+export const giftSelect = {
+	id: true,
+	name: true,
+	link: true,
+	eventId: true,
+	recipientUserId: true,
+	addedByUserId: true,
+	reservedByUserId: true,
+	createdAt: true,
+} satisfies Prisma.GiftSelect;

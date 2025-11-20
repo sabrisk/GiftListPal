@@ -15,7 +15,7 @@ function Item(props: ItemProps) {
 	const linkUrl =
 		props.variant === "gift-event"
 			? `/events/${props.id}/participants`
-			: `/events/${props.event.id}/participants/${props.user.id}`;
+			: `/events/${props.event.id}/participants/${props.user.id}/gifts`;
 
 	const name = props.variant === "gift-event" ? props.name : props.user.name;
 

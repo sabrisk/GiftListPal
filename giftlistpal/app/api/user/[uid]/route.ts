@@ -32,7 +32,7 @@ export async function GET(
 	}
 
 	try {
-		console.log("Fetching participants for event:", session.user.id);
+		// console.log("Fetching participants for event:", session.user.id);
 
 		const user = await prisma.user.findUnique({
 			where: {

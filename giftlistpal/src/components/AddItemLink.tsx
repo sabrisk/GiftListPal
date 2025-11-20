@@ -1,19 +1,18 @@
 import Link from "next/link";
 import React from "react";
+import { getButtonTitle, getLink } from "@lib/utility";
 
-type Variant = "participant" | "gift-event";
+type Variant = "participant" | "gift-event" | "gift";
 
 interface AddItemLinkProps {
 	variant: Variant;
 	eventId?: number;
+	userId?: string;
 }
 
-const AddItemLink = ({ variant, eventId }: AddItemLinkProps) => {
-	const linkUrl =
-		variant === "participant"
-			? `/events/${eventId}/participants/invite`
-			: `/events/new`;
-	const buttonTitle = variant === "participant" ? "Add Person" : "Add Event";
+const AddItemLink = ({ variant, eventId, userId }: AddItemLinkProps) => {
+	let linkUrl = getLink(variant, eventId, userId);
+	let buttonTitle = getButtonTitle(variant);
 
 	return (
 		<Link
