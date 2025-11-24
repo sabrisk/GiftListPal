@@ -122,7 +122,7 @@ export default function AddGift() {
 							name="name"
 							autoComplete="off"
 							className="border rounded px-3 py-2"
-							maxLength={36}
+							maxLength={34}
 							value={formik.values.name}
 							onBlur={formik.handleBlur}
 						/>

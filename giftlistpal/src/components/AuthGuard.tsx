@@ -1,5 +1,4 @@
 "use client";
-console.log("AuthGuard rendered");
 import React, { ReactNode, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter, usePathname } from "next/navigation";
@@ -42,7 +41,6 @@ AuthGuardProps) {
 	try {
 		const isReady =
 			status === "authenticated" && userStatus === "succeeded";
-		console.log("Before isReady check", { status, userStatus });
 		if (!isReady) return null; //maybe a loading spinner
 
 		if (isReady && isProfileSetupPage && user?.name) {

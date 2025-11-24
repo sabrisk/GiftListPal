@@ -43,6 +43,9 @@ function Item(props: ItemProps) {
 				>
 					{name}
 				</div>
+				{/* {props.user.id === <div>
+					figure out how to display WL
+				</div>} */}
 			</div>
 		</Link>
 	);

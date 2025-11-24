@@ -69,7 +69,7 @@ function Participants() {
 				{giftEventsStatus === "succeeded" && giftEvent && (
 					<>
 						<ItemGridHeader
-							title={giftEvent.name}
+							eventName={giftEvent.name}
 							description={giftEvent.description}
 						></ItemGridHeader>
 						<AddItemLink variant={"participant"} eventId={eid} />

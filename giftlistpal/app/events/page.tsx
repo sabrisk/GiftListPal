@@ -37,7 +37,6 @@ function Events() {
 		<AuthGuard>
 			<main>
 				<ItemGridHeader
-					title={"Events"}
 					description={"Select or add events below"}
 				></ItemGridHeader>
 				<AddItemLink variant={"gift-event"} />

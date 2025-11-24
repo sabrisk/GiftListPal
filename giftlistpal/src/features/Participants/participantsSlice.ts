@@ -117,6 +117,16 @@ export const selectAllParticipants = (state: RootState) =>
 
 export const selectParticipantsStatus = (state: RootState) =>
 	state.participants.getParticipantsStatus;
+
+export const selectParticipantById = (
+	state: RootState,
+	participantId: string
+) => {
+	return state.participants.list.find(
+		(participant) => participant.user.id === participantId
+	);
+};
+
 export const { resetParticipants } = participantsSlice.actions;
 
 export default participantsSlice.reducer;

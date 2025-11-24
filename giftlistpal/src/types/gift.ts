@@ -30,4 +30,23 @@ export type Gift = Prisma.GiftGetPayload<{
 	select: typeof giftSelect;
 }>;
 
-export type ApiGiftParticipantResponse = SuccessResponse<Gift> | ErrorResponse;
+export interface PostGiftSuccessPayload {
+	gift: Gift;
+	message: string;
+}
+
+export type UpdateGiftPayload = Pick<
+	CreateGiftRequestPost,
+	"eventId" | "participantId"
+> &
+	Partial<Omit<CreateGiftRequestPost, "eventId" | "participantId">>;
+
+export interface patchGiftRequest {
+	id: number;
+	name?: string;
+	link?: string | null;
+	eventId?: number;
+	participantId?: string;
+	addedByUserId?: string;
+	reservedByUserId?: string | null;
+}
