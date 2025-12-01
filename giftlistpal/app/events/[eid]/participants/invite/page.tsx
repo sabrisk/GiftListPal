@@ -28,7 +28,7 @@ import { toast } from "sonner";
 
 interface Invite {
 	email: string;
-	type: string;
+	// type: string;
 }
 
 export default function Invite() {
@@ -79,16 +79,16 @@ export default function Invite() {
 		} else if (values.email === session?.user?.email) {
 			errors.email = "Error: You cannot invite yourself";
 		}
-		if (!values.type) {
-			errors.type = "Required";
-		}
+		// if (!values.type) {
+		// 	errors.type = "Required";
+		// }
 		return errors;
 	};
 
 	const formik = useFormik({
 		initialValues: {
 			email: "",
-			type: "",
+			// type: "",
 		},
 		validate: (values) => validate(values, session),
 		onSubmit: handleSubmit,
@@ -127,7 +127,7 @@ export default function Invite() {
 						</div>
 					) : null}
 
-					<RadioGroup
+					{/* <RadioGroup
 						id="type"
 						name="type"
 						onBlur={formik.handleBlur}
@@ -151,12 +151,8 @@ export default function Invite() {
 					</RadioGroup>
 					{formik.touched.type && formik.errors.type ? (
 						<div className="text-red-500">{formik.errors.type}</div>
-					) : null}
-					{/* {inviteSentMessage && (
-						<p className="text-green-500 font-medium">
-							{inviteSentMessage}
-						</p>
-					)} */}
+					) : null} */}
+
 					<button
 						type="submit"
 						className="mt-4 bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-black font-semibold py-2 rounded"

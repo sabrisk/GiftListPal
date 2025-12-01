@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useFormik } from "formik";
@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/dialog";
 
 import { Button } from "@/components/ui/button";
+import { selectParticipantById } from "@/features/Participants/participantsSlice";
 
 interface NewGift {
 	name: string;
@@ -32,11 +33,16 @@ export default function AddGift() {
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 	const params = useParams();
-	const { data: session } = useSession();
-
+	const rawParticipantId = params?.uid;
+	const participantId =
+		typeof rawParticipantId === "string" ? rawParticipantId : undefined;
 	const eventId = params?.eid ? Number(params.eid) : undefined;
-	const participantId = params?.uid ? params.uid : undefined;
+	const { data: session } = useSession();
 	const addedByUserId = session?.user?.id;
+
+	const participant = useAppSelector((state) =>
+		participantId ? selectParticipantById(state, participantId) : undefined
+	);
 
 	//will probably use this to ensure that the participant is loaded,
 	//and to get their name to display. Refer to the invite page
@@ -102,12 +108,17 @@ export default function AddGift() {
 		onSubmit: handleSubmit,
 	});
 
+	if (!participant) {
+		return <></>;
+	}
+
 	return (
 		<AuthGuard>
 			<div className="p-3 ">
 				<header className="flex justify-end items-start"></header>
 				<header className="flex flex-col items-center">
 					<h1 className="text-3xl mt-15 mb-6 font-bold">Add Gift</h1>
+					<h2 className="text-2xl">{participant.user.name}</h2>
 				</header>
 				<form
 					onSubmit={formik.handleSubmit}

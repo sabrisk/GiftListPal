@@ -9,6 +9,7 @@ import {
 	InviteSuccessResponse,
 	InviteErrorResponse,
 } from "@/types/inviteParticipant";
+import { getInviteHTML } from "@lib/utility";
 
 const resend = new Resend(process.env.AUTH_RESEND_KEY);
 
@@ -28,7 +29,8 @@ export async function POST(req: Request): Promise<NextResponse> {
 		const { eventId, email } = await req.json();
 		const token = crypto.randomBytes(32).toString("hex");
 		const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24); // expires in 24 hours
-		if (!session?.user?.id) {
+		const currUser = session?.user;
+		if (!currUser) {
 			return NextResponse.json(
 				errorResponse(
 					"UNAUTHORIZED",
@@ -92,6 +94,36 @@ export async function POST(req: Request): Promise<NextResponse> {
 			return NextResponse.json(dbResult, { status });
 		}
 
+		const event = await prisma.event.findFirst({
+			where: {
+				id: eventId,
+			},
+			select: {
+				name: true,
+			},
+		});
+
+		if (!event) {
+			return NextResponse.json(
+				errorResponse(
+					"EVENT_NOT_FOUND",
+					"The event for this invite was not found"
+				),
+				{ status: 500 }
+			);
+		}
+		const eventName = event.name;
+
+		if (!currUser.name) {
+			return NextResponse.json(
+				errorResponse(
+					"USER_NAME_MISSING",
+					"Current user's name is missing"
+				),
+				{ status: 500 }
+			);
+		}
+
 		const inviteUrl = `${
 			process.env.NEXTAUTH_URL
 		}/invite/accept?token=${encodeURIComponent(token)}`;
@@ -101,10 +133,10 @@ export async function POST(req: Request): Promise<NextResponse> {
 				from: "Invite@mail.giftlistpal.com",
 				to: email,
 				subject: "GiftListPal | You’ve been invited to an event!",
-				html: `
-			  <p>You've been invited to join an event.</p>
-			  <p><a href="${inviteUrl}">Click here to accept your invite</a></p>
-			`,
+				html: getInviteHTML(inviteUrl, eventName, currUser.name),
+				//   <p>You've been invited to join an event.</p>
+				//   <p><a href="${inviteUrl}">Click here to accept your invite</a></p>
+				// `,
 			});
 		} catch (err) {
 			console.error("Email sending failed:", err);

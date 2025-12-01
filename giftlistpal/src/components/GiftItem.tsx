@@ -15,12 +15,14 @@ interface GiftItemProps {
 function GiftItem({ gift, handleGiftClick, currentUserId }: GiftItemProps) {
 	return (
 		<Link
+			className="block h-full"
 			href={gift.link ? gift.link : "#"}
 			target="_blank"
 			rel="noopener noreferrer"
 		>
 			<div
 				className="flex flex-col
+							h-full
 							justify-between
 							group
 							rounded
@@ -87,7 +89,7 @@ function GiftItem({ gift, handleGiftClick, currentUserId }: GiftItemProps) {
 						<span className="text-lg ml-3 mt-auto  mb-2 rounded-2xl px-3 bg-[var(--background)]">
 							{gift.addedByUserId === gift.recipientUserId
 								? "⭐ Wishlist"
-								: "👍 Recommended"}
+								: `👍 Recommended`}
 						</span>
 						<span className="text-lg ml-3 mr-3 mt-auto  mb-2 rounded-2xl px-3 bg-[var(--background)]">
 							{gift.reservedByUserId === currentUserId

@@ -1,16 +1,21 @@
 import React from "react";
-// import Link from "next/link";
+import Link from "next/link";
+
+interface CrumbData {
+	id: number | string;
+	name: string;
+}
 
 type ItemGridHeaderProps = {
-	eventName?: String;
-	participantName?: String;
+	eventData?: CrumbData;
+	participantData?: CrumbData;
 	description: String;
 	children?: React.ReactNode;
 };
 
 function ItemGridHeader({
-	eventName,
-	participantName,
+	eventData,
+	participantData,
 	description,
 }: ItemGridHeaderProps) {
 	let title = "";
@@ -23,29 +28,53 @@ function ItemGridHeader({
 	// }
 	// debugger;
 	let breadcrumbs = [];
-
-	if (!eventName && !participantName) {
-		breadcrumbs.push("Events");
+	// debugger;
+	// if (!eventData && !participantData) {
+	breadcrumbs.push({
+		link: `/events`,
+		name: "Events",
+	});
+	// }
+	if (eventData) {
+		breadcrumbs.push({
+			link: `/events/${eventData.id}/participants`,
+			name: eventData.name,
+		});
 	}
-	if (eventName) {
-		breadcrumbs.push(eventName);
-	}
 
-	if (participantName) {
-		breadcrumbs.push(participantName);
+	if (eventData && participantData) {
+		breadcrumbs.push({
+			link: `/events/${eventData.id}/participants/${participantData.id}/gifts`,
+			name: participantData.name,
+		});
 	}
 	return (
 		<div className="mb-12">
-			{breadcrumbs.map((crumb, index) => (
-				<div key={index} className="inline-block mb-2">
-					<span className="font-bold text-4xl">{crumb}</span>
-					{index === 0 && breadcrumbs.length > 1 && (
-						<span className="text-4xl px-6">❯</span>
-					)}
-				</div>
-			))}
+			{breadcrumbs.map((data, index) => {
+				// debugger;
+				return (
+					<div key={index} className="inline-block mb-2">
+						{index !== 0 && (
+							<span className="text-2xl px-6">❯</span>
+						)}
+						{breadcrumbs.length !== index + 1 && (
+							<Link href={data.link}>
+								<span className="text-2xl underline hover:text-[var(--primary-hover)]">
+									{data?.name}
+								</span>
+							</Link>
+						)}
+						{/* Don't attach a link to current page */}
+						{breadcrumbs.length === index + 1 && (
+							<span className="text-2xl semi-bold">
+								{data?.name}
+							</span>
+						)}
+					</div>
+				);
+			})}
 			<div className="flex mt-5">
-				<h3 className="text-xl inline ">{description}</h3>
+				<h3 className="font-bold text-3xl inline ">{description}</h3>
 			</div>
 		</div>
 	);

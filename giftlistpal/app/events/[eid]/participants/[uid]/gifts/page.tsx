@@ -126,6 +126,11 @@ function Gifts() {
 		}
 	};
 
+	function possessive(name: string) {
+		if (!name) return "";
+		return name.endsWith("s") ? `${name}'` : `${name}'s`;
+	}
+
 	if (!eventId) {
 		return <div>No event id found.</div>;
 	}
@@ -151,12 +156,20 @@ function Gifts() {
 				participantGifts && (
 					<main>
 						<ItemGridHeader
-							eventName={giftEvent?.name}
-							participantName={participant.user.name}
+							eventData={{
+								id: giftEvent.id,
+								name: giftEvent.name,
+							}}
+							participantData={{
+								id: participant.user.id,
+								name: participant.user.name,
+							}}
 							description={
 								participant.user.id === currUser
-									? "Add gifts to your wishlist!"
-									: "Add or reserve gifts"
+									? `${possessive(
+											participant.user.name
+									  )} Wishlist`
+									: `Add or reserve gifts for ${participant.user.name}`
 							}
 						></ItemGridHeader>
 						<AddItemLink
