@@ -9,12 +9,9 @@ export default function VerifyRequestPage() {
 				the link to continue.
 			</p>
 			<br />
-			<button
-				onClick={() => window.close()}
-				className="underline hover:text-[var(--primary-hover)] cursor-pointer"
-			>
-				Close this tab
-			</button>
+			<p className="text-lg text-center max-w-md">
+				Feel free to close this tab
+			</p>
 		</div>
 	);
 }
