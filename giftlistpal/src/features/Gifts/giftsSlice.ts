@@ -119,7 +119,6 @@ export const postParticipantGift = createAsyncThunk<
 				body: JSON.stringify(newGift),
 			}
 		);
-		debugger;
 		const json = await response.json();
 
 		if (!response.ok || !json.success) {
