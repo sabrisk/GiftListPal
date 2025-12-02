@@ -8,9 +8,15 @@ import {
 	selectUserStatus,
 	selectUser,
 } from "@/features/User/userSlice";
+import { Noto_Sans } from "next/font/google";
+const notoSans = Noto_Sans({
+	subsets: ["latin"],
+	weight: ["500"],
+});
 
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useEffect } from "react";
+import Link from "next/link";
 
 export default function Navbar() {
 	const { data: session, status } = useSession();
@@ -27,19 +33,15 @@ export default function Navbar() {
 		}
 	}, [userStatus, status, userId, dispatch]);
 
-	const hideNavbar = pathname === "/signup"; // or "/signup"
+	const hideNavbar = pathname === "/signup";
 
 	if (status === "loading") {
-		// Prevent SSR/client mismatch
 		return null;
 	}
 
-	// if (status === "unauthenticated") {
-	// 	return null;
-	// }
 	const handleSignOut = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-		await signOut({ callbackUrl: "/signup" });
+		await signOut({ callbackUrl: "/" });
 	};
 	const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
@@ -52,21 +54,39 @@ export default function Navbar() {
 	return (
 		<>
 			{!hideNavbar && (
-				<nav className="flex items-center justify-end  mt-12 mb-14">
-					<div className="py-1 mr-10  cursor-pointer ">
-						<span className=" text-xl pb-1 border-b border-b-transparent hover:border-b-white">
-							{user?.name}
-						</span>
-						<span className="inline-block my-auto text-sm ml-2">
-							{"▼"}
-						</span>
-					</div>
-					<button
-						onClick={handleClick}
-						className="hidden md:block text-[#f5efe7] font-bold border-1 rounded border-[#f5efe7] px-3 py-1"
+				<nav className="flex items-center justify-between  mt-12 mb-14">
+					<Link
+						href={"/"}
+						className=" border-b border-b-transparent hover:border-b-white"
 					>
-						{buttonTitle}
-					</button>
+						<span
+							className={`text-3xl border-b border-b-transparent ${notoSans.className}`}
+						>
+							GiftListPal
+						</span>
+					</Link>
+					<div className="flex ">
+						{status === "authenticated" && (
+							<Link href={"/events"}>
+								<div className="py-1 mr-10  cursor-pointer ">
+									<span className="text-xl border-b border-b-transparent hover:border-b-white">
+										Events
+									</span>
+								</div>
+							</Link>
+						)}
+						<div className="py-1 md:mr-10  cursor-pointer ">
+							<span className=" text-xl pb-1 border-b border-b-transparent hover:border-b-white">
+								{user?.name}
+							</span>
+						</div>
+						<button
+							onClick={handleClick}
+							className="hidden md:block text-[#f5efe7] font-bold border-1 rounded border-[#f5efe7] px-3 py-1"
+						>
+							{buttonTitle}
+						</button>
+					</div>
 				</nav>
 			)}
 		</>
