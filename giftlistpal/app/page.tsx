@@ -1,115 +1,86 @@
 import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Noto_Sans } from "next/font/google";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const notoSans = Noto_Sans({
+	subsets: ["latin"],
+	weight: ["500"], // choose only what you need
 });
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const notoSansItalic = Noto_Sans({
+	subsets: ["latin"],
+	weight: ["500"], // choose only what you need
+	style: ["italic"],
 });
 
 export default function Home() {
-  return (
-    <div
-      className={`${geistSans.className} ${geistMono.className} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
-    >
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/pages/index.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+	return (
+		<div className="grid grid-rows-[20px_1fr_20px] justify-items-center min-h-screen pb-20 sm:pt-20 font-[family-name:var(--font-geist-sans)]">
+			<main className="flex flex-col gap-[22px] row-start-2 items-center w-full">
+				<h1
+					className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-center ${notoSans.className}`}
+				>
+					Coordinate gifts with
+				</h1>
+				<h1
+					className={`text-[rgb(255,81,0)] text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-20 ${notoSansItalic.className}`}
+				>
+					family and friends
+				</h1>
+				<Image
+					src="/gift-page-lg.PNG"
+					alt="Hero"
+					width={1164}
+					height={604}
+					unoptimized
+					className="w-full max-w-[1164px] mb-15 h-auto rounded-2xl border-[var(--surface-border)] border-10 hidden lg:block"
+				/>
+				<Image
+					src="/gift-page.PNG"
+					alt="Hero"
+					width={453}
+					height={612}
+					unoptimized
+					className="w-full max-w-[453px] mb-15 h-auto rounded-2xl border-[var(--surface-border)] border-10 block lg:hidden"
+				/>
+
+				<div className="flex">
+					<div className="w-[150px] border-b-1 mb-9"></div>
+				</div>
+
+				<section className="flex flex-wrap justify-center gap-12 w-full my-4 text-3xl">
+					<div className="flex flex-col items-center gap-6 max-w-[300px]">
+						<h2 className="text-center">Track Events</h2>
+						<Image
+							src="/show-navigation.gif"
+							alt="Hero"
+							width={298}
+							height={348}
+							className="w-full border-[var(--surface-border)] border-3 rounded-2xl"
+						/>
+					</div>
+
+					<div className="flex flex-col items-center gap-6 max-w-[300px] flex-none">
+						<h2 className="text-center">Add Gifts</h2>
+						<Image
+							src="/add-gift.gif"
+							alt="Hero"
+							width={298}
+							height={348}
+							className="w-full border-[var(--surface-border)] border-3 rounded-2xl"
+						/>
+					</div>
+
+					<div className="flex flex-col items-center gap-6 max-w-[300px] flex-none">
+						<h2 className="text-center">Reserve Gifts</h2>
+						<Image
+							src="/reserve-gift.gif"
+							alt="Hero"
+							width={298}
+							height={348}
+							className="w-full border-[var(--surface-border)] border-3 flex-none rounded-2xl"
+						/>
+					</div>
+				</section>
+			</main>
+		</div>
+	);
 }
