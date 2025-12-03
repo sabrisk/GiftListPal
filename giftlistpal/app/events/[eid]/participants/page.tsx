@@ -29,15 +29,12 @@ function Participants() {
 	const dispatch = useAppDispatch();
 	const params = useParams();
 	const eid = params?.eid ? Number(params.eid) : undefined;
-	if (!eid) {
-		return <div>No event id found.</div>;
-	}
 
 	const giftEventsStatus = useAppSelector(selectGiftEventsStatus);
 	const participantsStatus = useAppSelector(selectParticipantsStatus);
 
 	const giftEvent = useAppSelector((state) =>
-		selectGiftEventById(state, eid)
+		eid ? selectGiftEventById(state, eid) : undefined
 	);
 	const participants = useAppSelector(selectAllParticipants);
 
@@ -62,6 +59,10 @@ function Participants() {
 			dispatch(resetParticipants());
 		};
 	}, [dispatch]);
+
+	if (!eid) {
+		return <div>No event id found.</div>;
+	}
 
 	return (
 		<AuthGuard>
