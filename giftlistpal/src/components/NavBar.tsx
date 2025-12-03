@@ -2,6 +2,7 @@
 
 import { useSession, signOut } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
+import { Toaster } from "@/components/ui/sonner";
 
 import {
 	getUser,
@@ -53,6 +54,20 @@ export default function Navbar() {
 
 	return (
 		<>
+			<Toaster
+				position="top-center"
+				theme="dark"
+				duration={6000}
+				toastOptions={{
+					style: {
+						background: "#364153",
+						border: "1px solid #45556c",
+						fontSize: "1rem",
+						color: "#ffffff",
+						borderRadius: ".2em",
+					},
+				}}
+			/>
 			{!hideNavbar && (
 				<nav className="flex items-center justify-between  mt-12 mb-14">
 					<Link
