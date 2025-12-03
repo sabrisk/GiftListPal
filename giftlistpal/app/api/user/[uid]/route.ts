@@ -54,10 +54,7 @@ export async function GET(
 	}
 }
 
-export async function PATCH(
-	request: Request,
-	{ params }: { params: { uid: string } }
-) {
+export async function PATCH(request: Request) {
 	try {
 		const { uid, name }: patchUserRequest = await request.json();
 
