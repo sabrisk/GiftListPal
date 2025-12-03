@@ -3,7 +3,7 @@ import { prisma } from "@lib/prisma";
 import { auth } from "../../../../auth";
 import { SuccessResponse, ErrorResponse } from "@/types/user";
 import { userSelect } from "@lib/prismaSelects";
-import { User, patchUserRequest } from "@/types/user";
+import { patchUserRequest } from "@/types/user";
 
 const successResponse = <T>(data: T, message: string): SuccessResponse<T> => ({
 	success: true,
