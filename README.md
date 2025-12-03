@@ -32,7 +32,7 @@ I started by building out the basic form pages for users to do things like creat
 
 Next, I spent time learning how NextJS handles routing in order to navigate between pages. I also introduced  Redux Toolkit as well as PostgreSQL to handle state management and querying my database. Later, I took the opportunity to learn Prisma to introduce an ORM which I leveraged to more easily perform database queries.
 
-At this point, I began looking at protecting my routes with Auth.js (formerly NextAuth). I used Resend as my email provider to save myself from any e-mail delivery mistakes early on. While looking into Resend, I discovered the option of using Magic Links which require just an e-mail address to sign in with no password. After doing more research, I decided this was ideal for my app since dealing with passwords and forgotten password forms can be a pain for anyone, but especially olderor less tech saavy users.
+At this point, I began looking at protecting my routes with Auth.js (formerly NextAuth). I used Resend as my email provider to save myself from any e-mail delivery mistakes early on. While looking into Resend, I discovered the option of using Magic Links which require just an e-mail address to sign in with no password. After doing more research, I decided this was ideal for my app since dealing with passwords and forgotten password forms can be a pain for anyone, but especially older or less tech saavy users.
 
 Next, I built out the email inivitation system which allows users to invite people directly to events. Initially, users needed to create an account before accepting the email invite, but later, I simiplified this process allowing both to be performed at the same time.
 
