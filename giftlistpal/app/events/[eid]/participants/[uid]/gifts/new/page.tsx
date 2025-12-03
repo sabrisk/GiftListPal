@@ -66,9 +66,16 @@ export default function AddGift() {
 			router.replace(
 				`/events/${eventId}/participants/${participantId}/gifts`
 			);
-		} catch (err: any) {
-			console.error(err);
-			setErrorMessage(err || "Failed to add gift. Please try again.");
+		} catch (err: unknown) {
+			if (err instanceof Error) {
+				console.error(err);
+				setErrorMessage(
+					err.message || "Failed to add gift. Please try again."
+				);
+			} else {
+				console.error(err);
+				setErrorMessage("Failed to add gift. Please try again.");
+			}
 			setErrorDialogOpen(true);
 		}
 	};
