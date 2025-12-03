@@ -1,5 +1,5 @@
-"use client";
-// app/layout.tsx
+export const dynamic = "force-dynamic";
+
 import "@/styles/globals.css";
 import { Provider } from "react-redux";
 import { store } from "@/store/store"; // adjust path if needed
