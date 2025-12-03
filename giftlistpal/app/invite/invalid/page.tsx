@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React from "react";
 
-const page = () => {
+const InvalidInvite = () => {
 	const searchParams = useSearchParams();
 	const code = searchParams.get("error");
 	let content = null;
@@ -57,4 +57,4 @@ const page = () => {
 	return <div>{content}</div>;
 };
 
-export default page;
+export default InvalidInvite;
