@@ -17,11 +17,8 @@ const errorResponse = (code: string, message: string): ErrorResponse => ({
 	message,
 });
 
-export async function GET(
-	request: Request,
-	{ params }: { params: { uid: string } }
-) {
-	const { uid } = await params;
+export async function GET(_request: Request, context: any) {
+	const { uid } = context.params;
 	const session = await auth();
 
 	if (!session?.user?.id) {

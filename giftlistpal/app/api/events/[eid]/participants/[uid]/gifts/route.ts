@@ -22,12 +22,9 @@ const errorResponse = (code: string, message: string): ErrorResponse => ({
 	message,
 });
 
-export async function GET(
-	_request: Request,
-	{ params }: { params: { eid: string; uid: string } }
-) {
+export async function GET(req: Request, context: any) {
 	try {
-		const { eid, uid } = params;
+		const { eid, uid } = context.params;
 		const session = await auth();
 
 		if (!session?.user?.id) {
