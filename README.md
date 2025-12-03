@@ -59,4 +59,28 @@ During this project, I've learned several technologies that were new to me.
 #### Prisma
 - First time using Prisma. I migrated my existing PostgreSQL database schema to a Prisma schema and began letting prisma manage everything. Changes to the database are now done with migrations. I've dabbled with ORMs before but never to this depth. I was really surprised at just how convenient it was to included various pieces of data from the database in my queries. It was a bit of work to get set up, but once it is, it really makes life easier.
 
+## 🔍Preview
+<table style="border-collapse: separate; border-spacing: 20px 10px;">
+  <thead>
+    <tr>
+      <th style="padding: 10px; font-size: 20px; text-align: center;">Keep Track of Events</th>
+      <th style="padding: 10px; font-size: 20px; text-align: center;">Add Gifts</th>
+      <th style="padding: 10px; font-size: 20px; text-align: center;">Reserve Gifts</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding: 10px; text-align: center;">
+        <img src="https://github.com/user-attachments/assets/0f471d2b-9733-4fe2-bd68-8de8f5d280b1" width="250" />
+      </td>
+      <td style="padding: 10px; text-align: center;">
+        <img src="https://github.com/user-attachments/assets/343262bc-6a51-4c46-815b-b512c9f02973" width="250" />
+      </td>
+      <td style="padding: 10px; text-align: center;">
+        <img src="https://github.com/user-attachments/assets/6fac8440-3a96-45f1-810e-1a9ffc611a6d" width="250" />
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 
