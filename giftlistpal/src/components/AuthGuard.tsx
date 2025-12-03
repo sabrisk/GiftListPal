@@ -37,7 +37,7 @@ AuthGuardProps) {
 			router.replace("/events");
 			return;
 		}
-	}, [status, userStatus, user, pathname, router]);
+	}, [status, isProfileSetupPage, userStatus, user, pathname, router]);
 	try {
 		const isReady =
 			status === "authenticated" && userStatus === "succeeded";
