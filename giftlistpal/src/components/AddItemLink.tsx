@@ -11,8 +11,8 @@ interface AddItemLinkProps {
 }
 
 const AddItemLink = ({ variant, eventId, userId }: AddItemLinkProps) => {
-	let linkUrl = getLink(variant, eventId, userId);
-	let buttonTitle = getButtonTitle(variant);
+	const linkUrl = getLink(variant, eventId, userId);
+	const buttonTitle = getButtonTitle(variant);
 
 	return (
 		<Link
