@@ -131,7 +131,7 @@ export async function OPTIONS() {
 		{ error: "Method Not Allowed" },
 		{
 			status: 405,
-			headers: { Allow: "GET, POST" },
+			headers: { Allow: "GET, PATCH" },
 		}
 	);
 }
