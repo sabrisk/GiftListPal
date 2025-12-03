@@ -17,7 +17,6 @@ import {
 	DialogDescription,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
 	DialogFooter,
 } from "@/components/ui/dialog";
 
@@ -44,25 +43,8 @@ export default function AddGift() {
 		participantId ? selectParticipantById(state, participantId) : undefined
 	);
 
-	//will probably use this to ensure that the participant is loaded,
-	//and to get their name to display. Refer to the invite page
-
-	// const giftEvent = useAppSelector((state) =>
-	// 	eid ? selectGiftEventById(state, eid) : null
-	// );
-
 	const [errorDialogOpen, setErrorDialogOpen] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
-
-	// update this to go back to participants page if the participant
-	// doesn't exist
-
-	// useEffect(() => {
-	// 	if (!giftEvent) {
-	// 		router.replace("/events");
-	// 		return;
-	// 	}
-	// }, [giftEvent, router]);
 
 	const handleSubmit = async (values: NewGift) => {
 		try {
