@@ -40,10 +40,23 @@ Once the invite system was in place, I was free to focus on the meat and potatoe
 
 I spent time on the design, making fonts large and legible with icons and badges to give users plenty of feedback on whether gifts were wishlisted by the recipient, recommended by another participant, or reserved and no longer available. 
 
+## 📚What I Learned
 
+During this project, I've learned several technologies that were new to me.
 
+### TypeScript
+- I've been able to introduce type safety through GiftListPal. It definitely helps to document the inputs and outputs of each function and catch issues before they become a nightmare to debug later.
 
+### React Lifecycle
+- The React component lifecycle is definitely something I've felt weak on in terms of my understanding. Working through this project has given me a better understanding of mounting, unmounting, when hooks run, when things are rendered, etc. Still a work in progress, but I'm getting there!
 
+### NextJS
+- I was completely unfamiliar with NextJS prior to starting this project. I've been amazed at just how much of an all in one solution it is. My favorite part was building out my own internal API using route.ts files and sending requests from my RTK thunks.
 
+### RESTful APIs
+- I've built REST APIs before but I really dove into making mine as resilient as possible. Handling as many error states as I could think of, returning the correct status codes, 
+
+### Prisma
+- First time using Prisma. I migrated my existing PostgreSQL database schema to a Prisma schema and began letting prisma manage everything. Changes to the database are now done with migrations. I've dabbled with ORMs before but never to this depth. I was really surprised at just how convenient it was to included various pieces of data from the database in my queries. It was a bit of work to get set up, but once it is, it really makes life easier.
 
 
