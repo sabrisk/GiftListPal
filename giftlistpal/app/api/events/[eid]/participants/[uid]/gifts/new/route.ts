@@ -70,6 +70,7 @@ export async function POST(req: Request) {
 			{ status: 201 }
 		);
 	} catch (err) {
+		console.error("Unhandled error in gift creation route:", err);
 		return NextResponse.json(
 			errorResponse("INTERNAL_ERROR", "Internal server error"),
 			{ status: 500 }
