@@ -83,9 +83,10 @@ export async function PATCH(request: Request) {
 				{ status: 400 }
 			);
 		}
+		//Need to update patchGiftRequest type use recipientUserId instead of participantId
+		//So I can use that instead of an unknown type
+		const data: Record<string, unknown> = {}; // loose typing for DB
 
-		// Build a data object with only defined fields
-		const data: Record<string, any> = {};
 		if (name !== undefined) data.name = name;
 		if (link !== undefined) data.link = link;
 		if (eventId !== undefined) data.eventId = eventId;
@@ -93,6 +94,16 @@ export async function PATCH(request: Request) {
 		if (addedByUserId !== undefined) data.addedByUserId = addedByUserId;
 		if (reservedByUserId !== undefined)
 			data.reservedByUserId = reservedByUserId;
+
+		// // Build a data object with only defined fields
+		// // const data: Record<string, any> = {};
+		// if (name !== undefined) data.name = name;
+		// if (link !== undefined) data.link = link;
+		// if (eventId !== undefined) data.eventId = eventId;
+		// if (participantId !== undefined) data.recipientUserId = participantId;
+		// if (addedByUserId !== undefined) data.addedByUserId = addedByUserId;
+		// if (reservedByUserId !== undefined)
+		// 	data.reservedByUserId = reservedByUserId;
 
 		// Update the gift
 		const updatedGift = await prisma.gift.update({
