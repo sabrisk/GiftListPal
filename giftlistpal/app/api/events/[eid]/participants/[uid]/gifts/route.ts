@@ -23,7 +23,7 @@ const errorResponse = (code: string, message: string): ErrorResponse => ({
 });
 
 export async function GET(
-	request: Request,
+	_request: Request,
 	{ params }: { params: { eid: string; uid: string } }
 ) {
 	try {
