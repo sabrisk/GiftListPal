@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useSession } from "next-auth/react";
-import { useParams, usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 import AuthGuard from "@/components/AuthGuard";
 
 import ItemGridHeader from "@/components/ItemGridHeader";
@@ -39,8 +39,6 @@ function Gifts() {
 	const dispatch = useAppDispatch();
 	const { data: session } = useSession();
 	const currUser = session?.user?.id ?? null;
-	// const pathname = usePathname();
-	// const title = pathname.endsWith("/gifts");
 	const params = useParams();
 	const rawUserId = params?.uid;
 	const userId = typeof rawUserId === "string" ? rawUserId : undefined;
@@ -116,7 +114,7 @@ function Gifts() {
 		}
 
 		if (typeof eventId === "number" && typeof userId === "string") {
-			const result = await dispatch(
+			await dispatch(
 				updateParticipantGift({
 					...updatedGift,
 					eventId,
