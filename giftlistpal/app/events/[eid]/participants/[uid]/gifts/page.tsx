@@ -75,10 +75,10 @@ function Gifts() {
 	}, [giftEventsStatus, dispatch]);
 
 	useEffect(() => {
-		if (participantsStatus === "idle") {
-			eventId ? dispatch(getParticipants(eventId)) : undefined;
+		if (participantsStatus === "idle" && typeof eventId === "number") {
+			dispatch(getParticipants(eventId));
 		}
-	}, [participantsStatus, dispatch]);
+	}, [participantsStatus, eventId, dispatch]);
 
 	useEffect(() => {
 		if (
