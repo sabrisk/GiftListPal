@@ -18,23 +18,12 @@ function ItemGridHeader({
 	participantData,
 	description,
 }: ItemGridHeaderProps) {
-	let title = "";
-	// if (eventName && participantName) {
-	// 	title = `${eventName}  ❯  ${participantName}`;
-	// }
-
-	// if (!participantName) {
-	// 	title = eventName;
-	// }
-	// debugger;
-	let breadcrumbs = [];
-	// debugger;
-	// if (!eventData && !participantData) {
+	const breadcrumbs = [];
 	breadcrumbs.push({
 		link: `/events`,
 		name: "Events",
 	});
-	// }
+
 	if (eventData) {
 		breadcrumbs.push({
 			link: `/events/${eventData.id}/participants`,
@@ -51,7 +40,6 @@ function ItemGridHeader({
 	return (
 		<div className="mb-12">
 			{breadcrumbs.map((data, index) => {
-				// debugger;
 				return (
 					<div key={index} className="inline-block mb-2">
 						{index !== 0 && (
