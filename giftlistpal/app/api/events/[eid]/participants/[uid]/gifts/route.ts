@@ -48,7 +48,7 @@ export async function GET(
 			},
 		});
 		return NextResponse.json(
-			successResponse(gifts, "Gifts retreived successfully"),
+			successResponse(gifts, "Gifts retrieved successfully"),
 			{
 				status: 200,
 				headers: {
