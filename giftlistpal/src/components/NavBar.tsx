@@ -97,7 +97,7 @@ export default function Navbar() {
 						</div>
 						<button
 							onClick={handleClick}
-							className="hidden md:block text-[#f5efe7] font-bold border-1 rounded border-[#f5efe7] px-3 py-1"
+							className="block text-[#f5efe7] font-bold border rounded border-[#f5efe7] px-3 py-1"
 						>
 							{buttonTitle}
 						</button>
