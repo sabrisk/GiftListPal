@@ -15,6 +15,8 @@ GiftListPal began as an idea to help my family coordinate gift giving. We usuall
 - NextAuth
 - Formik
 - Resend
+- Playwright
+- MailSlurp
 
 ## 🦄 Features
 Here's what you can do with GiftListPal:
@@ -82,5 +84,13 @@ During this project, I've learned several technologies that were new to me.
     </tr>
   </tbody>
 </table>
+
+## Capstone Planning Links
+1) #### [Capstone Step One: Pick Project Ideas](capstone-ideas.md)
+2) #### [Capstone Step Two: Project Proposal](project-proposal.md)
+3) #### [Capstone Step Three: Plan Frontend Specifications](https://www.figma.com/board/9Qb9tcjPuCM5P9bCzADgGb/GiftListPal-App-Flow?node-id=0-1&t=z92aaFaok9f31uuZ-1)
+4) #### [Capstone Step Four: Plan Database Model](https://github.com/user-attachments/assets/66cdb962-61b5-4615-8122-f2d0a41c2016)
+5) #### [Capstone Step Five: Plan API Specifications](api-specifications.md)
+
 
 
