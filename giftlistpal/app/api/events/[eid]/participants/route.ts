@@ -17,7 +17,7 @@ const errorResponse = (code: string, message: string): ErrorResponse => ({
 });
 
 export async function GET(_request: Request, context: any) {
-	const { eid } = context.params;
+	const { eid } = await context.params;
 	const eventId = eid ? Number(eid) : undefined;
 	const session = await auth();
 

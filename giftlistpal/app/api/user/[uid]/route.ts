@@ -18,7 +18,7 @@ const errorResponse = (code: string, message: string): ErrorResponse => ({
 });
 
 export async function GET(_request: Request, context: any) {
-	const { uid } = context.params;
+	const { uid } = await context.params;
 	const session = await auth();
 
 	if (!session?.user?.id) {
