@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import { Noto_Sans } from "next/font/google";
+import { useEffect } from "react";
 
 const notoSans = Noto_Sans({
 	subsets: ["latin"],
@@ -12,6 +15,10 @@ const notoSansItalic = Noto_Sans({
 });
 
 export default function Home() {
+	useEffect(() => {
+		document.title = `GiftListPal`;
+	}, []);
+
 	return (
 		<div className="grid grid-rows-[20px_1fr_20px] justify-items-center min-h-screen pb-20 sm:pt-20 font-[family-name:var(--font-geist-sans)]">
 			<main className="flex flex-col gap-[22px] row-start-2 items-center w-full">
